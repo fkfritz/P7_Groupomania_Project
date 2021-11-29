@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "MSQLDevWEB",
+    "database": "social_network",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
