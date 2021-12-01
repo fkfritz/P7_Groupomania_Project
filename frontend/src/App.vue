@@ -1,32 +1,48 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-main class="test">
+      <PageHeader />
+      <v-container class="mt-16">
+        <!-- <Login /> -->
+        <!-- <Signup /> -->
+        <router-view/>
+      </v-container>
+      <!-- <router-view/> -->
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapActions } from 'vuex';
+import PageHeader from '@/components/Header.vue'
+// import Login from '@/components/Login.vue'
+// import Signup from '@/components/Signup.vue'
 
-#nav {
-  padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+export default {
+  name: 'App',
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  data: () => ({
+    //
+  }),
+  components: {
+    PageHeader,
+    // Login,
+    // Signup
+
+  },
+  methods: {
+    ...mapActions([
+      'fetchAccessToken'
+    ]),
+  },
+  created() {
+    this.fetchAccessToken();
   }
+};
+</script>
+<style lang="scss" scoped>
+.test {
+  background-color: #f2f2f2;
 }
 </style>
