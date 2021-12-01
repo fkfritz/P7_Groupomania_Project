@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue darken-4" dense>
-    <v-col class="col-2">
+    <v-col >
       <v-toolbar-title class="d-flex align-center" @click="navigateTo({ name: 'Login' })">
         <img
           class="logo"
@@ -69,7 +69,7 @@ export default {
 .logo {
   // width: 10rem;
   cursor: pointer;
-  width: 100%;
+  width: 10rem;
 }
 .v-toolbar__title {
   width: 100%;

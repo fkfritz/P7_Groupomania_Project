@@ -5,10 +5,11 @@
     class="mx-auto d-flex align-center rounded-xl"
     color="blue lighten-4"
   >
-    <v-col class="col-6 pr-0 pl-0 mr-0 d-flex justify-center">
+  <v-row class="d-flex flex-md-row justify-center">
+    <v-col class=" pa-4 d-flex align-center ">
       <img class="rounded-xl" src="../assets/icon-above-font.png" alt="" />
     </v-col>
-    <v-col>
+    <v-col class="ma-2 pa-4">
       <v-toolbar
         class="d-flex justify-center rounded-xl"
         elevation="0"
@@ -40,7 +41,7 @@
         <!-- <p v-if="loginError">{{ loginError }}</p>
       <p v-if="loginSuccessful">Login Successful</p> -->
         <br />
-        <v-row align="center" justify="space-around">
+        <v-row>
           <v-btn
             class="btn align-self-center ma-2 rounded-xl"
             color="blue darken-4"
@@ -56,6 +57,7 @@
         >
       </div>
     </v-col>
+    </v-row>
   </v-card>
 </template>
 

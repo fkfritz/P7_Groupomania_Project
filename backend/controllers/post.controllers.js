@@ -3,7 +3,7 @@ const { Post } = require("../models");
 const { User } = require("../models");
 const { Comment } = require("../models");
 const fs = require("fs");
-const { Like } = require("../models");
+// const { Like } = require("../models");
 
 // Afficher tous les messages
 exports.getPost = async (req, res, next) => {
@@ -162,8 +162,6 @@ exports.deletePost = async (req, res, next) => {
 //     res.status(500).json({ error });
 //   }
 // };
-
-
 
 //Section commentaire
 //Créer un commentaire
