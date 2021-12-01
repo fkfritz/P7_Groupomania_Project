@@ -47,7 +47,7 @@
           <div class="d-flex">
             <div @click="profil" class="d-flex align-center">
               <v-avatar class="mt-2 ml-2">
-                <img :src="message.imageUrl" alt="John" />
+                <img :src="message.imageUrl" alt="" />
                 <!-- src="https://cdn.vuetifyjs.com/images/john.jpg" -->
               </v-avatar>
               <span class="ml-2"
