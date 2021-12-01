@@ -3,7 +3,8 @@ const Joi = require("joi");
 module.exports = {
   register(req, res, next) {
     const schema = Joi.object({
-        username: Joi.string().alphanum().min(3).max(30).required(),
+        first_name: Joi.string().alphanum().min(3).max(30).required(),
+        last_name: Joi.string().alphanum().min(3).max(30).required(),
       email: Joi.string().email().lowercase().required(),
       password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')),
     });

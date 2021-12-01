@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 // const db = require("../models");
 // const user = db.User;
 const { User } = require("../models");
@@ -11,7 +12,8 @@ exports.signup = async (req, res, next) => {
     const hash = await bcrypt.hash(req.body.password, 10);
 
     const user = new User({
-      username: req.body.username,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
       email: req.body.email,
       password: hash,
     });
@@ -58,18 +60,40 @@ exports.login = async (req, res, next) => {
 };
 //-----------------------------------------------------------------//
 
-// Supprimer un utilisateur
+
+
+// Pour supprimer un utilisateur
 exports.deleteAccount = async (req, res, next) => {
   try {
-    const userParams = req.params;
-    await User.destroy({ where: { id: userParams.id } });
-    res.status(200).json({ message: "Utilisateur supprimée !" });
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user.avatar !== null) {
+      const filename = user.avatar.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        // sil' y a une photo on la supprime et on supprime le compte
+        User.destroy({ where: { id: req.params.id } });
+        res.status(200).json({ message: "Utilisateur supprimé" });
+      });
+    } else {
+      User.destroy({ where: { id: req.params.id } }); // on supprime le compte
+      res.status(200).json({ message: "utilisateur supprimé" });
+    }
   } catch (error) {
-    res.status(400).json({ error });
+    return res.status(500).send({ error: "Erreur serveur" });
   }
 };
 
+//Afficher tous les comptes
+exports.getAllAccounts = async (req, res, next) => {
+  try {
+    const allAccounts = await User.findAll({
+    });
+    res.status(200).json(allAccounts);
+  } catch (error) {
+    res.status(404).json({ error });
+  }
+};
 
+//Afficher un seul compte
 exports.getOneAccount = async (req, res, next) => {
   try {
     const userParams = req.params;
@@ -82,71 +106,50 @@ exports.getOneAccount = async (req, res, next) => {
     res.status(400).json({ error });
   }
 };
-
-// Modifier un compte utilisateur
+// test de modif
 exports.modifyAccount = async (req, res, next) => {
   try {
-    const post = req.body;
-    const accountParams = req.params;
+    let newPhoto;
+    let user = await User.findOne({ where: { id: req.params.id } }); // on trouve le user
 
-    await User.update(post, {
-      where: { id: accountParams.id },
-    });
-    res.status(200).json({ message: "Message modifié" });
-
-    
-    try {
-      
-      let newPhoto;
-      let user = await User.findOne({ where: { id: id } }); // on trouve le user
-      if (userId === user.id) {
-        if (req.file && user.photo) {
-          newPhoto = `${req.protocol}://${req.get("host")}/api/upload/${
-            req.file.filename
-          }`;
-          const filename = user.photo.split("/upload")[1];
-          fs.unlink(`upload/${filename}`, (err) => {
-            // s'il y avait déjà une photo on la supprime
-            if (err) console.log(err);
-            else {
-              console.log(`Deleted file: upload/${filename}`);
-            }
-          });
-        } else if (req.file) {
-          newPhoto = `${req.protocol}://${req.get("host")}/api/upload/${
-            req.file.filename
-          }`;
+    if (req.file && user.avatar) {
+      newPhoto = `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`;
+      const filename = user.avatar.split("/images/")[1];
+      fs.unlink(`images/${filename}`, (err) => {
+        // s'il y avait déjà une photo on la supprime
+        if (err) console.log(err);
+        else {
+          console.log(`Deleted file: images/${filename}`);
         }
-        if (newPhoto) {
-          user.photo = newPhoto;
-        }
-        if (req.body.bio) {
-          user.bio = req.body.bio;
-        }
-        if (req.body.pseudo) {
-          user.pseudo = req.body.pseudo;
-        }
-        const newUser = await user.save({ fields: ["pseudo", "bio", "photo"] }); // on sauvegarde les changements dans la bdd
-        res.status(200).json({
-          user: newUser,
-          messageRetour: "Votre profil a bien été modifié",
-        });
-      } else {
-        res
-          .status(400)
-          .json({ messageRetour: "Vous n'avez pas les droits requis" });
-      }
-    } catch (error) {
-      return res.status(500).send({ error: "Erreur serveur" });
+      });
+    } else if (req.file) {
+      newPhoto = `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`;
+    }
+    if (newPhoto) {
+      user.avatar = newPhoto;
+    }
+    if (req.body.first_name) {
+      user.first_name = req.body.first_name;
+    }
+    if (req.body.last_name) {
+      user.last_name = req.body.last_name;
+    }
+    if (req.body.password) {
+      user.password = await bcrypt.hash(req.body.password, 10);
     }
 
-
-
-
+    const newUser = await user.save({
+      fields: ["first_name", "last_name", "avatar", "password"],
+    }); // on sauvegarde les changements dans la bdd
+    res.status(200).json({
+      user: newUser,
+      messageRetour: "Votre profil a bien été modifié",
+    });
   } catch (error) {
-    res.status(400).json({ error });
+    return res.status(500).send({ error: "Erreur serveur" });
   }
-  
 };
-
-

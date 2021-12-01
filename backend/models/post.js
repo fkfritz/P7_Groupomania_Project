@@ -4,14 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     //   type: DataTypes.STRING,
     //   allowNull: false,
     // },
-    postText: {
+    message: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    },   
     imageUrl: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -31,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "CASCADE",
     });
+    Post.hasMany(models.Comment);
   };
 
   return Post;
