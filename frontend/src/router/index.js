@@ -5,7 +5,8 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Posts from "@/components/Posts.vue";
 import OnePost from "@/components/OnePost.vue";
-// import Profil from "@/components/Profil.vue";
+import Profil from "@/components/Profil.vue";
+
 
 Vue.use(VueRouter);
 // const user = JSON.parse(localStorage.getItem("user"));
@@ -38,15 +39,19 @@ const routes = [
     name: "OnePost",
     component: OnePost,
   }, 
-  // {
-  //   path: "/profil/" + id,
-  //   name: "Profil",
-  //   component: Profil,
-  // },
+  {
+    path: "/profil/:id",
+    name: "Profil",
+    component: Profil,
+  },
 ];
 
 const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = to.name
+  next()
+});
 export default router;
