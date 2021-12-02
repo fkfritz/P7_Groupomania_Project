@@ -16,15 +16,40 @@
           </v-col>
 
           <div class="d-flex justify-center">
-            <label for="image" class="pr-2">Image</label>
+            <!-- <label for="image" class="pr-2">Image</label> -->
+            <!-- <v-file-input
+              ref="file"
+              type="file"
+              @change="uploadImage"
+              label="File input"
+              accept="image/png, image/jpeg,
+                image/bmp, image/gif"
+              outlined
+              name="image"
+              dense
+            ></v-file-input> -->
+            <v-btn color="success" @click="$refs.file.click()"
+              >Ajouter une image</v-btn
+            >
             <input
+              v-show="false"
+              ref="file"
+              type="file"
+              label="sel"
+              accept="image/png, image/jpeg,
+                image/bmp, image/gif"
+              name="image"
+              @change="uploadImage"
+            />
+            <!-- <input
               @change="uploadImage"
               type="file"
               accept="image/png, image/jpeg,
                 image/bmp, image/gif"
               ref="file"
               name="image"
-            />
+              
+            /> -->
           </div>
         </form>
         <v-row>
@@ -48,45 +73,85 @@
             <div @click="profil" class="d-flex align-center">
               <v-avatar class="mt-2 ml-2">
                 <img :src="message.imageUrl" alt="" />
-                <!-- src="https://cdn.vuetifyjs.com/images/john.jpg" -->
+                
               </v-avatar>
               <span class="ml-2"
                 >{{ message.User.last_name }} {{ message.User.first_name }}
               </span>
             </div>
+            <v-spacer></v-spacer>
             <div>
               <v-card-title class="d-flex justify-center">
-                <span class="text-h6 font-weight-light">
+                <span class="text font-weight-light">
                   Posté le: {{ dateParser(message.createdAt) }}
                 </span>
               </v-card-title>
             </div>
           </div>
           <div>
-            <div class="text-center" v-if="message.UserId == UserId">
-              <v-icon @click="messageToEdit(index)">mdi-pencil</v-icon>
-              <v-icon @click="deleteMessage(message.id)">mdi-delete</v-icon>
-              <!-- Boite de dialogue pour la modification des message -->
-              <!-- v-if="post.imageUrl" -->
-              <!-- fin -->
-              <!-- <v-icon @click="editMessage(message.id)">mdi-pencil</v-icon> -->
-              <!-- <v-icon @click="deleteMessage(message.id)">mdi-delete</v-icon> -->
-            </div>
             <div class="rounded-lg">
               <v-img
                 :src="message.imageUrl"
                 alt="image postée par l'utilisateur"
-                :max-height="300"
+                :max-height="200"
                 :max-width="500"
                 class="image mx-auto pb-5 rounded-lg"
               >
               </v-img>
             </div>
-            <div>
-              <v-card-text class="text-h5 font-weight-bold">
-                {{ message.message }}
-              </v-card-text>
-            </div>
+            <div class="d-flex pa-2">
+              <v-col cols="10">
+                <v-card-text class="text">
+                  {{ message.message }}
+                </v-card-text>
+              </v-col>
+              <v-col
+              cols="2"
+                class="pa-0 d-flex text-center justify-end"
+                v-if="message.UserId == UserId"
+              >
+                <!-- <v-icon @click="messageToEdit(index)">mdi-pencil</v-icon>
+              <v-icon @click="deleteMessage(message.id)">mdi-delete</v-icon> -->
+
+                <v-speed-dial
+                  v-model="fab"
+                  :top="top"
+                  :bottom="bottom"
+                  :right="right"
+                  :left="left"
+                  :direction="direction"
+                  :open-on-hover="hover"
+                  :transition="transition"
+                >
+                  <template v-slot:activator>
+                    <v-btn v-model="fab" color="blue darken-2" dark fab>
+                      <v-icon v-if="fab"> mdi-close </v-icon>
+                      <v-icon v-else> mdi-plus </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    @click="messageToEdit(index)"
+                    fab
+                    dark
+                    small
+                    color="green"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn
+                    @click="deleteMessage(message.id)"
+                    fab
+                    dark
+                    small
+                    color="red"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+              </v-col>
+
+              </div>
+           
             <v-card-actions>
               <v-list-item class="grow">
                 <v-row align="center" justify="end">
