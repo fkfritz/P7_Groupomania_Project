@@ -70,7 +70,7 @@
       <div class="mt-3" v-for="(message, index) in messages" :key="index">
         <v-card class="mx-auto" color="teal darken-2" dark max-width="600">
           <div class="d-flex">
-            <div @click="profil" class="d-flex align-center">
+            <div @click="profil" class=" profil d-flex align-center">
               <v-avatar class="mt-2 ml-2">
                 <img :src="message.imageUrl" alt="" />
                 
@@ -287,14 +287,20 @@ export default {
 
       return date.toString();
     },
-    // profil() {
-    //   const router = this.$router;
-    //   setTimeout(function () {
-    //     router.push("/profil/" + id);
-    //   }, 10);
-    // },
+    profil(userId) {
+      const router = this.$router;
+      setTimeout(function () {
+        router.push(`/profil/${userId}`);
+      }, 10);
+    },
     // deleteMessage(messageId) {},
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.profil{
+  cursor: pointer;
+}
+
+
+</style>
