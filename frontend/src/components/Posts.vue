@@ -28,9 +28,9 @@
               name="image"
               dense
             ></v-file-input> -->
-            <v-btn color="success" @click="$refs.file.click()"
-              >Ajouter une image</v-btn
-            >
+            <v-btn color="success" @click="$refs.file.click()">
+              Ajouter une image
+            </v-btn>
             <input
               v-show="false"
               ref="file"
@@ -70,13 +70,12 @@
       <div class="mt-3" v-for="(message, index) in messages" :key="index">
         <v-card class="mx-auto" color="teal darken-2" dark max-width="600">
           <div class="d-flex">
-            <div @click="profil" class=" profil d-flex align-center">
+            <div @click="profil" class="profil d-flex align-center">
               <v-avatar class="mt-2 ml-2">
                 <img :src="message.imageUrl" alt="" />
-                
               </v-avatar>
-              <span class="ml-2"
-                >{{ message.User.last_name }} {{ message.User.first_name }}
+              <span class="ml-2">
+                {{ message.User.last_name }} {{ message.User.first_name }}
               </span>
             </div>
             <v-spacer></v-spacer>
@@ -96,8 +95,7 @@
                 :max-height="200"
                 :max-width="500"
                 class="image mx-auto pb-5 rounded-lg"
-              >
-              </v-img>
+              ></v-img>
             </div>
             <div class="d-flex pa-2">
               <v-col cols="10">
@@ -106,7 +104,7 @@
                 </v-card-text>
               </v-col>
               <v-col
-              cols="2"
+                cols="2"
                 class="pa-0 d-flex text-center justify-end"
                 v-if="message.UserId == UserId"
               >
@@ -125,8 +123,8 @@
                 >
                   <template v-slot:activator>
                     <v-btn v-model="fab" color="blue darken-2" dark fab>
-                      <v-icon v-if="fab"> mdi-close </v-icon>
-                      <v-icon v-else> mdi-plus </v-icon>
+                      <v-icon v-if="fab">mdi-close</v-icon>
+                      <v-icon v-else>mdi-plus</v-icon>
                     </v-btn>
                   </template>
                   <v-btn
@@ -149,9 +147,14 @@
                   </v-btn>
                 </v-speed-dial>
               </v-col>
+            </div>
+            <div>
+              <v-col>
+                <v-icon large color="blue darken-2">mdi-message-text</v-icon>
+              </v-col>
+              
+            </div>
 
-              </div>
-           
             <v-card-actions>
               <v-list-item class="grow">
                 <v-row align="center" justify="end">
@@ -208,99 +211,97 @@
 </template>
 
 <script>
-import PostServices from "@/services/PostServices";
+import PostServices from '@/services/PostServices'
 
-let user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem('user'))
 
 // let id = user.id;
 
 export default {
-  name: "Post",
+  name: 'Post',
 
   data() {
     return {
       messages: [],
       dialog: false,
       message: null,
-      file: "",
+      file: '',
       UserId: user.id,
       messageEdit: new Object(),
-    };
+    }
   },
   async mounted() {
     this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return dateB - dateA;
-    });
+      const dateA = new Date(a.createdAt).getTime()
+      const dateB = new Date(b.createdAt).getTime()
+      return dateB - dateA
+    })
   },
 
   methods: {
     uploadImage() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
+      this.file = this.$refs.file.files[0]
+      console.log(this.file)
     },
     async publish() {
-      const fd = new FormData();
-      fd.append("message", this.message);
-      fd.append("UserId", this.UserId);
+      const fd = new FormData()
+      fd.append('message', this.message)
+      fd.append('UserId', this.UserId)
       if (this.file !== null) {
-        fd.append("image", this.file);
+        fd.append('image', this.file)
       }
 
-      await PostServices.createPost(fd);
-      location.reload(true);
+      await PostServices.createPost(fd)
+      location.reload(true)
     },
 
     messageToEdit(index) {
-      this.dialog = true;
-      this.messageEdit = this.messages[index];
+      this.dialog = true
+      this.messageEdit = this.messages[index]
     },
     async editMessage(messageId) {
       try {
         let data = {
           message: this.messageEdit.message,
-        };
-        const res = await PostServices.modifyPost(`${messageId}`, data);
-        console.log(res);
+        }
+        const res = await PostServices.modifyPost(`${messageId}`, data)
+        console.log(res)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     async deleteMessage(messageId) {
-      await PostServices.deletePost(`${messageId}`);
-      location.reload(true);
+      await PostServices.deletePost(`${messageId}`)
+      location.reload(true)
     },
     // fonction pour transformer la date sur les messages
     dateParser(num) {
       let options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      };
-      let timestamp = Date.parse(num);
-      let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }
+      let timestamp = Date.parse(num)
+      let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
 
-      return date.toString();
+      return date.toString()
     },
     profil(userId) {
-      const router = this.$router;
+      const router = this.$router
       setTimeout(function () {
-        router.push(`/profil/${userId}`);
-      }, 10);
+        router.push(`/profil/${userId}`)
+      }, 10)
     },
     // deleteMessage(messageId) {},
   },
-};
+}
 </script>
 <style lang="scss" scoped>
-.profil{
+.profil {
   cursor: pointer;
 }
-
-
 </style>

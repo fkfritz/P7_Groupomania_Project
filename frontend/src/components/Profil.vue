@@ -13,7 +13,7 @@
           dense
           color="blue darken-4"
         >
-          <v-toolbar-title>Bienvenue </v-toolbar-title>
+          <v-toolbar-title>Bienvenue</v-toolbar-title>
         </v-toolbar>
       </div>
       <div class="d-flex mt-4">
@@ -29,7 +29,7 @@
           </v-btn>
         </v-col>
         <v-col>
-          <span>Membre depuis le: </span>
+          <span>Membre depuis le:</span>
         </v-col>
       </div>
       <div>
@@ -56,11 +56,20 @@
 // import UserServices from "@/services/UserServices";
 // const user = JSON.parse(localStorage.getItem("user"));
 // let id = user.id;
+import { mapActions } from 'vuex'
 export default {
   data() {
-    return {};
+    return {}
   },
+  created() {
+    this.getUsers();
+  },
+  // mounted() {
+  //   this.$store.dispatch("getPosts");
+  //   this.$store.dispatch('getUsers')
+  // },
   methods: {
+    ...mapActions (['getUsers'])
     // async deleteAccount() {
     //   await UserServices.deleteAccount(`${id}`);
     //   const router = this.$router;
@@ -69,7 +78,7 @@ export default {
     //   }, 10);
     // },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-toolbar__title {
