@@ -10,7 +10,7 @@ exports.getPost = async (req, res, next) => {
   try {
     const allPosts = await Post.findAll({
       include: [
-        { model: User, attributes: ["first_name", "last_name"] },
+        { model: User, attributes: ["first_name", "avatar", "last_name"] },
         {
           model: Comment,
           attributes: ["id", "text"],

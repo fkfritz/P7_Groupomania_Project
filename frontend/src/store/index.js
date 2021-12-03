@@ -9,15 +9,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: null,
-    users:{},
+    user: {},
     UserId: null,
     isUserLoggedIn: false,
     message: [],
     posts: [],
+    // id: this.$route.params.id,
   },
-  getters:{
-    users(state) {
-      return state.users;
+  getters: {
+    user(state) {
+      return state.user;
     },
   },
   mutations: {
@@ -29,25 +30,33 @@ export default new Vuex.Store({
         state.isUserLoggedIn = false;
       }
     },
-    setUser(state, UserId) {
+    setUserId(state, UserId) {
       state.UserId = UserId;
     },
     setMessage(state, message) {
       state.message = message;
     },
-    SET_USERS(state, users){
-      state.users = users;
+    SET_USER(state, user) {
+      state.user = user;
     },
-    SET_POSTS(state, posts){
-      state.posts =posts;
-    }
+    SET_POSTS(state, posts) {
+      state.posts = posts;
+    },
+    SET_USER_ID(state, user) {
+      state.user = user;
+    },
+   
+    
   },
   actions: {
     setToken({ commit }, token) {
       commit("setToken", token);
     },
-    setUser({ commit }, UserId) {
-      commit("setUser", UserId);
+    setUserId({ commit }, UserId) {
+      commit("setUserId", UserId);
+    },
+    setUser({ commit }, user) {
+      commit("SET_USER", user);
     },
 
     fetchAccessToken({ commit }) {
@@ -57,18 +66,25 @@ export default new Vuex.Store({
     setMessage({ commit }, message) {
       commit("setMessage", message);
     },
-    getUsers({ commit }){
-      const response = UserServices.getAllUsers();
-      const users =response.data
-      commit("SET_USERS", users);
+    // getUsers({ commit }){
+    //   const response = UserServices.getAllUsers();
+    //   const users =response.data
+    //   commit("SET_USERS", users);
+    //   console.log(response);
+    // },
+    getOneUser({ commit }) {
+      let id = this.$route.params.id
+      const response = UserServices.getOneUser(id);
+      const user = response.data;
+      commit("SET_USER_ID", user);
       console.log(response);
     },
-    async getPosts({ commit }){
+    async getPosts({ commit }) {
       const response = await PostServices.getAllPosts();
-      const posts =response.data
+      const posts = response.data;
       commit("SET_POSTS", posts);
       console.log(response);
-    }
+    },
   },
   modules: {},
 });

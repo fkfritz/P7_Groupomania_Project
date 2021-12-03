@@ -16,18 +16,8 @@
           </v-col>
 
           <div class="d-flex justify-center">
-            <!-- <label for="image" class="pr-2">Image</label> -->
-            <!-- <v-file-input
-              ref="file"
-              type="file"
-              @change="uploadImage"
-              label="File input"
-              accept="image/png, image/jpeg,
-                image/bmp, image/gif"
-              outlined
-              name="image"
-              dense
-            ></v-file-input> -->
+            
+             
             <v-btn color="success" @click="$refs.file.click()">
               Ajouter une image
             </v-btn>
@@ -41,15 +31,7 @@
               name="image"
               @change="uploadImage"
             />
-            <!-- <input
-              @change="uploadImage"
-              type="file"
-              accept="image/png, image/jpeg,
-                image/bmp, image/gif"
-              ref="file"
-              name="image"
-              
-            /> -->
+            
           </div>
         </form>
         <v-row>
@@ -67,22 +49,23 @@
     </div>
 
     <div>
-      <div class="mt-3" v-for="(message, index) in messages" :key="index">
+      <div class="mt-3" v-for="(post, index) in posts" :key="index">
+      <!-- <div class="mt-3" v-for="(message, index) in messages" :key="index"> -->
         <v-card class="mx-auto" color="teal darken-2" dark max-width="600">
           <div class="d-flex">
-            <div @click="profil" class="profil d-flex align-center">
+            <div @click="profil(post.UserId)" class="profil d-flex align-center">
               <v-avatar class="mt-2 ml-2">
-                <img :src="message.imageUrl" alt="" />
+                <img :src="post.User.avatar" alt="" />
               </v-avatar>
               <span class="ml-2">
-                {{ message.User.last_name }} {{ message.User.first_name }}
+                {{ post.User.last_name }} {{ post.User.first_name }}
               </span>
             </div>
             <v-spacer></v-spacer>
             <div>
               <v-card-title class="d-flex justify-center">
                 <span class="text font-weight-light">
-                  Posté le: {{ dateParser(message.createdAt) }}
+                  Posté le: {{ dateParser(post.createdAt) }}
                 </span>
               </v-card-title>
             </div>
@@ -90,7 +73,7 @@
           <div>
             <div class="rounded-lg">
               <v-img
-                :src="message.imageUrl"
+                :src="post.imageUrl"
                 alt="image postée par l'utilisateur"
                 :max-height="200"
                 :max-width="500"
@@ -100,13 +83,13 @@
             <div class="d-flex pa-2">
               <v-col cols="10">
                 <v-card-text class="text">
-                  {{ message.message }}
+                  {{ post.message }}
                 </v-card-text>
               </v-col>
               <v-col
                 cols="2"
                 class="pa-0 d-flex text-center justify-end"
-                v-if="message.UserId == UserId"
+                v-if="post.UserId == UserId"
               >
                 <!-- <v-icon @click="messageToEdit(index)">mdi-pencil</v-icon>
               <v-icon @click="deleteMessage(message.id)">mdi-delete</v-icon> -->
@@ -137,7 +120,7 @@
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn
-                    @click="deleteMessage(message.id)"
+                    @click="deleteMessage(post.id)"
                     fab
                     dark
                     small
@@ -173,10 +156,6 @@
         </v-card>
       </div>
       <v-dialog v-model="dialog" width="500">
-        <!-- <template v-slot:activator="{ on, attrs }">
-          
-        </template> -->
-
         <v-card>
           <v-col cols="12" sm="12">
             <v-textarea
@@ -222,7 +201,7 @@ export default {
 
   data() {
     return {
-      messages: [],
+      // messages: [],
       dialog: false,
       message: null,
       file: '',
@@ -230,13 +209,27 @@ export default {
       messageEdit: new Object(),
     }
   },
-  async mounted() {
-    this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime()
-      const dateB = new Date(b.createdAt).getTime()
-      return dateB - dateA
-    })
+  computed: {
+    posts() {
+      return this.$store.state.posts;
+    },
+    
   },
+
+  mounted() {
+    // const response = PostServices.getAllPosts();
+    // this.$store.dispatch("setMessage", response.data.message);
+    this.$store.dispatch("getPosts");
+    
+    // this.$store.dispatch("getUsers");
+  },
+  // async mounted() {
+  //   this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
+  //     const dateA = new Date(a.createdAt).getTime()
+  //     const dateB = new Date(b.createdAt).getTime()
+  //     return dateB - dateA
+  //   })
+  // },
 
   methods: {
     uploadImage() {

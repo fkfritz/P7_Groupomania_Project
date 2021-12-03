@@ -90,7 +90,7 @@ export default {
 
         console.log(response);
         this.$store.dispatch("setToken", response.data.token);
-        this.$store.dispatch("setUser", response.data.UserId);
+        this.$store.dispatch("setUserId", response.data.UserId);
         const router = this.$router;
         setTimeout(function () {
           router.push("/posts");
