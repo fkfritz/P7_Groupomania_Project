@@ -13,10 +13,17 @@
           dense
           color="blue darken-4"
         >
-          <v-toolbar-title
+          <v-toolbar-title v-if="user.id == UserId"
             >Bienvenue {{ user.first_name }} {{ user.last_name }}
           </v-toolbar-title>
-          <v-icon class="mx-2" color="grey lighten-1" @click="editTheName()"
+          <v-toolbar-title v-else
+            >Profil de {{ user.first_name }} {{ user.last_name }}
+          </v-toolbar-title>
+          <v-icon
+            class="mx-2"
+            color="grey lighten-1"
+            @click="editTheName()"
+            v-if="user.id == UserId"
             >mdi-pencil</v-icon
           >
           <v-dialog v-model="editname" width="500">
@@ -66,12 +73,17 @@
       <div class="d-flex">
         <div class="d-flex mt-4">
           <v-col class="d-flex flex-column pa-5">
-            <span class="mb-2">Votre photo de profil</span>
+            <span v-if="user.id == UserId" class="mb-2">Votre photo de profil</span>
+            <span v-else class="mb-2">Photo de profil</span>
             <div class="d-flex">
               <v-avatar class="profile" color="grey" size="164" tile>
                 <v-img :src="user.avatar"></v-img>
               </v-avatar>
-              <v-icon class="mx-2" color="blue" @click="elementToEdit"
+              <v-icon
+                class="mx-2"
+                color="blue"
+                @click="elementToEdit"
+                v-if="user.id == UserId"
                 >mdi-pencil</v-icon
               >
             </div>
@@ -107,7 +119,10 @@
           </v-col>
         </div>
         <v-col>
-          <span>Vous être membre depuis: {{ dateParser(user.createdAt) }}</span>
+          <span v-if="user.id == UserId"
+            >Vous être membre depuis: {{ dateParser(user.createdAt) }}</span
+          >
+          <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
         </v-col>
       </div>
       <div>
@@ -115,7 +130,7 @@
           <!-- <p v-if="loginError">{{ loginError }}</p>
       <p v-if="loginSuccessful">Login Successful</p> -->
           <br />
-          <v-row align="center" justify="space-around">
+          <v-row v-if="user.id == UserId" align="center" justify="space-around">
             <v-btn
               class="btn align-self-center ma-2 rounded-xl"
               color="red darken-1"
@@ -132,6 +147,7 @@
 
 <script>
 import UserServices from "@/services/UserServices";
+let userId = JSON.parse(localStorage.getItem("user"));
 
 export default {
   data() {
@@ -146,6 +162,7 @@ export default {
       ],
       id: "",
       user: "",
+      UserId: userId.id,
       last_name: "",
       first_name: "",
       password: "",
