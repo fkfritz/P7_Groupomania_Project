@@ -49,23 +49,23 @@
     </div>
 
     <div>
-      <div class="mt-3" v-for="(post, index) in posts" :key="index">
+      <div class="mt-3" v-for="(message, index) in messages" :key="index">
       <!-- <div class="mt-3" v-for="(message, index) in messages" :key="index"> -->
         <v-card class="mx-auto" color="teal darken-2" dark max-width="600">
           <div class="d-flex">
-            <div @click="profil(post.UserId)" class="profil d-flex align-center">
+            <div @click="profil(message.UserId)" class="profil d-flex align-center">
               <v-avatar class="mt-2 ml-2">
-                <img :src="post.User.avatar" alt="" />
+                <img :src="message.User.avatar" alt="" />
               </v-avatar>
               <span class="ml-2">
-                {{ post.User.last_name }} {{ post.User.first_name }}
+                {{ message.User.last_name }} {{ message.User.first_name }}
               </span>
             </div>
             <v-spacer></v-spacer>
             <div>
               <v-card-title class="d-flex justify-center">
                 <span class="text font-weight-light">
-                  Posté le: {{ dateParser(post.createdAt) }}
+                  Posté le: {{ dateParser(message.createdAt) }}
                 </span>
               </v-card-title>
             </div>
@@ -73,7 +73,7 @@
           <div>
             <div class="rounded-lg">
               <v-img
-                :src="post.imageUrl"
+                :src="message.imageUrl"
                 alt="image postée par l'utilisateur"
                 :max-height="200"
                 :max-width="500"
@@ -83,13 +83,13 @@
             <div class="d-flex pa-2">
               <v-col cols="10">
                 <v-card-text class="text">
-                  {{ post.message }}
+                  {{ message.message }}
                 </v-card-text>
               </v-col>
               <v-col
                 cols="2"
                 class="pa-0 d-flex text-center justify-end"
-                v-if="post.UserId == UserId"
+                v-if="message.UserId == UserId"
               >
                 <!-- <v-icon @click="messageToEdit(index)">mdi-pencil</v-icon>
               <v-icon @click="deleteMessage(message.id)">mdi-delete</v-icon> -->
@@ -120,7 +120,7 @@
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn
-                    @click="deleteMessage(post.id)"
+                    @click="deleteMessage(message.id)"
                     fab
                     dark
                     small
@@ -201,7 +201,7 @@ export default {
 
   data() {
     return {
-      // messages: [],
+      messages: [],
       dialog: false,
       message: null,
       file: '',
@@ -209,27 +209,27 @@ export default {
       messageEdit: new Object(),
     }
   },
-  computed: {
-    posts() {
-      return this.$store.state.posts;
-    },
+  // computed: {
+  //   posts() {
+  //     return this.$store.state.posts;
+  //   },
     
-  },
-
-  mounted() {
-    // const response = PostServices.getAllPosts();
-    // this.$store.dispatch("setMessage", response.data.message);
-    this.$store.dispatch("getPosts");
-    
-    // this.$store.dispatch("getUsers");
-  },
-  // async mounted() {
-  //   this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
-  //     const dateA = new Date(a.createdAt).getTime()
-  //     const dateB = new Date(b.createdAt).getTime()
-  //     return dateB - dateA
-  //   })
   // },
+
+  // mounted() {
+  //   // const response = PostServices.getAllPosts();
+  //   // this.$store.dispatch("setMessage", response.data.message);
+  //   this.$store.dispatch("getPosts");
+    
+  //   // this.$store.dispatch("getUsers");
+  // },
+  async mounted() {
+    this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime()
+      const dateB = new Date(b.createdAt).getTime()
+      return dateB - dateA
+    })
+  },
 
   methods: {
     uploadImage() {
