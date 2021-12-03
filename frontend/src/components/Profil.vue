@@ -38,6 +38,14 @@
                   :rules="inputRules"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" sm="12">
+                <v-text-field
+                  v-model="password"
+                  label="Changer mon mot de passe"
+                  required
+                  :rules="inputPasswordRules"
+                ></v-text-field>
+              </v-col>
 
               <v-divider></v-divider>
 
@@ -131,7 +139,10 @@ export default {
       dialog: false,
       editname: false,
       inputRules: [
-        v => v.length >= 3 || "minimum 3 caractères" //les règles sur l'input
+        (v) => v.length >= 3 || "minimum 3 caractères", //les règles sur l'input
+      ],
+      inputPasswordRules: [
+        (v) => v.length >= 6 || "minimum 6 caractères", //les règles sur l'input
       ],
       id: "",
       user: "",
@@ -165,12 +176,12 @@ export default {
     },
     async updateUser() {
       try {
-        let data = new FormData();        
+        let data = new FormData();
         if (this.file !== null) {
           data.append("image", this.file);
         }
         this.id = this.$route.params.id;
-        await UserServices.updateUser(this.id, data);        
+        await UserServices.updateUser(this.id, data);
         location.reload(true);
       } catch (error) {
         console.log(error);
@@ -182,18 +193,18 @@ export default {
     editTheName() {
       this.editname = true;
       this.usernameEdit = this.user;
-      
     },
     async updateTheName() {
       try {
         let data = {
           first_name: this.usernameEdit.first_name,
           last_name: this.usernameEdit.last_name,
-        };        
+          password: this.password,
+        };
         this.id = this.$route.params.id;
-        await UserServices.updateUser(this.id, data);
-       
-        location.reload(true);
+        const res = await UserServices.updateUser(this.id, data);
+        console.log(res);
+        // location.reload(true);
       } catch (error) {
         console.log(error);
       }
