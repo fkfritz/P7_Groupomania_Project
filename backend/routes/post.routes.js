@@ -16,9 +16,9 @@ router.delete("/:id", auth, postCtrl.deletePost);
 
 //
 //Créer un commentaire
-router.post("/:id/comment", auth, postCtrl.createComment);
+router.post("/comment", auth, postCtrl.createComment);
 
 // Supprimer un commentaire
-router.post("/comment/:id", auth, postCtrl.deleteComment);
+router.delete("/comment/:id", auth, postCtrl.deleteComment);
 
 module.exports = router;

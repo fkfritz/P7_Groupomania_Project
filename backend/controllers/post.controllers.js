@@ -168,7 +168,7 @@ exports.deletePost = async (req, res, next) => {
 exports.createComment = async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.body.UserId } });
-    const post = await Post.findOne({ where: { id: req.params.PostId } });
+    const post = await Post.findOne({ where: { id: req.body.PostId } });
     const comment = new Comment({
       UserId: user.id,
       PostId: post.id,

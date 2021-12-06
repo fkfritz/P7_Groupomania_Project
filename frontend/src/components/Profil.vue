@@ -19,13 +19,10 @@
           <v-toolbar-title v-else
             >Profil de {{ user.first_name }} {{ user.last_name }}
           </v-toolbar-title>
-          <v-icon
-            class="mx-2"
-            color="grey lighten-1"
-            @click="editTheName()"
-            v-if="user.id == UserId"
-            >mdi-pencil</v-icon
-          >
+          <v-btn text @click="editTheName()" v-if="user.id == UserId">
+            <v-icon class="mx-2" color="grey lighten-1">mdi-pencil</v-icon>
+            <span>Modifier</span>
+          </v-btn>
           <v-dialog v-model="editname" width="500">
             <v-card>
               <v-col cols="12" sm="12">
@@ -73,19 +70,20 @@
       <div class="d-flex">
         <div class="d-flex mt-4">
           <v-col class="d-flex flex-column pa-5">
-            <span v-if="user.id == UserId" class="mb-2">Votre photo de profil</span>
+            <span v-if="user.id == UserId" class="mb-2"
+              >Votre photo de profil</span
+            >
             <span v-else class="mb-2">Photo de profil</span>
             <div class="d-flex">
               <v-avatar class="profile" color="grey" size="164" tile>
                 <v-img :src="user.avatar"></v-img>
               </v-avatar>
-              <v-icon
-                class="mx-2"
-                color="blue"
-                @click="elementToEdit"
-                v-if="user.id == UserId"
-                >mdi-pencil</v-icon
-              >
+              <v-btn text @click="elementToEdit" v-if="user.id == UserId">
+                <v-icon class="mx-2" color="light-blue darken-4"
+                  >mdi-pencil</v-icon
+                >
+                <span>Modifier</span>
+              </v-btn>
             </div>
             <v-dialog v-model="dialog" width="500">
               <v-card>
