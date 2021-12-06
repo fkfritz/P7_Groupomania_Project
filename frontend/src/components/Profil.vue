@@ -7,22 +7,26 @@
       color="blue lighten-4"
     >
       <div>
+        
         <v-toolbar
-          class="d-flex justify-center rounded-xl"
+          class="d-flex justify-center rounded-t-xl"
           elevation="0"
           dense
           color="blue darken-4"
         >
+        <v-col>
           <v-toolbar-title v-if="user.id == UserId"
-            >Bienvenue {{ user.first_name }} {{ user.last_name }}
+            >Bienvenue, {{ user.first_name }} {{ user.last_name }}
           </v-toolbar-title>
           <v-toolbar-title v-else
             >Profil de {{ user.first_name }} {{ user.last_name }}
           </v-toolbar-title>
+          </v-col>
           <v-btn text @click="editTheName()" v-if="user.id == UserId">
             <v-icon class="mx-2" color="grey lighten-1">mdi-pencil</v-icon>
             <span>Modifier</span>
           </v-btn>
+          
           <v-dialog v-model="editname" width="500">
             <v-card>
               <v-col cols="12" sm="12">
@@ -66,15 +70,16 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
+        
       </div>
-      <div class="d-flex">
-        <div class="d-flex mt-4">
-          <v-col class="d-flex flex-column pa-5">
+      <div class="d-flex flex-column-reverse flex-md-row justify-center">
+        <div class="d-flex  mt-4">
+          <v-col class="d-flex flex-column align-center pa-5">
             <span v-if="user.id == UserId" class="mb-2"
               >Votre photo de profil</span
             >
             <span v-else class="mb-2">Photo de profil</span>
-            <div class="d-flex">
+            <div class="d-flex flex-column">
               <v-avatar class="profile" color="grey" size="164" tile>
                 <v-img :src="user.avatar"></v-img>
               </v-avatar>
@@ -258,7 +263,7 @@ export default {
   color: white;
   font-weight: bold;
 
-  font-size: 2rem;
+  font-size: 1.1rem;
   font-display: roboto;
 }
 

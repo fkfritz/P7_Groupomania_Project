@@ -186,7 +186,7 @@ exports.createComment = async (req, res, next) => {
 };
 
 //Supprimer un commentaire
-exports.deleteComment = (req, res, next) => {
+exports.deleteComment =  (req, res, next) => {
   try {
     Comment.destroy({
       where: { id: req.params.id },
