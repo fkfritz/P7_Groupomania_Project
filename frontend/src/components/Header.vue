@@ -1,5 +1,6 @@
 <template>
-  <v-toolbar color="blue darken-4" dense>
+<v-app-bar color="blue darken-4" dense fixed class=" mb-4">
+  <!-- <v-toolbar color="blue darken-4" dense fixed> -->
     <v-col >
       <v-toolbar-title class="d-flex align-center" @click="navigateTo({ name: 'Login' })">
         <img
@@ -42,7 +43,8 @@
     </v-btn>
 
     <!-- <v-btn class="mr-4" @click="navigateTo({ name: 'Signup' })"> Signup </v-btn> -->
-  </v-toolbar>
+ 
+  </v-app-bar>
 </template>
 
 <script>

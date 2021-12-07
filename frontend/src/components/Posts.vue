@@ -1,10 +1,14 @@
 <template>
   <div class="container">
+    <NewPost/>
+    
+    
+    
     <div class="mb-8">
       <!-- ----------------------- -->
       <!-- Bloc pour publer un msg -->
       <!-- ------------------------ -->
-      <v-card class="mx-auto" color="indigo" dark max-width="600">
+      <!-- <v-card class="mx-auto" color="indigo" dark max-width="600">
         <form class="pa-6" action="">
           <v-col cols="12" sm="12">
             <v-textarea
@@ -46,7 +50,7 @@
             </v-btn>
           </v-col>
         </v-row>
-      </v-card>
+      </v-card> -->
     </div>
     <!-- -------------------- -->
     <!-- Bloc message posté -->
@@ -264,7 +268,7 @@
 
 <script>
 import PostServices from "@/services/PostServices";
-
+import NewPost from '@/components/NewPost.vue'
 let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
@@ -304,7 +308,9 @@ export default {
   //     return dateB - dateA;
   //   });
   // },
-
+  components: {
+     NewPost
+  },
   methods: {
     commentPost(postId) {
       this.comment = true;

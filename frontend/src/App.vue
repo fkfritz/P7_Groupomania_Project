@@ -2,9 +2,12 @@
   <v-app>
     <v-main class="test">
       <PageHeader />
+      <br>
+      
       <v-container class="mt-16">
         <!-- <Login /> -->
         <!-- <Signup /> -->
+        
         <router-view/>
       </v-container>
       <!-- <router-view/> -->
@@ -19,6 +22,8 @@ import PageHeader from '@/components/Header.vue'
 // import Signup from '@/components/Signup.vue'
 
 
+
+
 export default {
   name: 'App',
 
@@ -26,7 +31,8 @@ export default {
     //
   }),
   components: {
-    PageHeader,
+    PageHeader, 
+    
     // Login,
     // Signup
 
