@@ -4,54 +4,7 @@
     
     
     
-    <div class="mb-8">
-      <!-- ----------------------- -->
-      <!-- Bloc pour publer un msg -->
-      <!-- ------------------------ -->
-      <!-- <v-card class="mx-auto" color="indigo" dark max-width="600">
-        <form class="pa-6" action="">
-          <v-col cols="12" sm="12">
-            <v-textarea
-              label="Mon message"
-              filled
-              auto-grow
-              outlined
-              rows="2"
-              row-height="15"
-              v-model="message"
-            ></v-textarea>
-          </v-col>
-
-          <div class="d-flex justify-center">
-            <v-btn color="success" @click="$refs.file.click()">
-              Ajouter une image
-            </v-btn>
-            <input
-              v-show="false"
-              ref="file"
-              type="file"
-              label="sel"
-              accept="image/png, image/jpeg,
-                image/bmp, image/gif"
-              name="image"
-              @change="uploadImage"
-            />
-            <div>{{ fileName }}</div>
-          </div>
-        </form>
-        <v-row>
-          <v-col class="d-flex justify-end">
-            <v-btn
-              class="btn align-self-center ma-2"
-              color="purple lighten-2"
-              @click.prevent.stop="publishPost()"
-            >
-              Publier
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card> -->
-    </div>
+   
     <!-- -------------------- -->
     <!-- Bloc message posté -->
     <!-- ---------------------- -->
@@ -425,5 +378,8 @@ export default {
 <style lang="scss" scoped>
 .profil {
   cursor: pointer;
+}
+.v-btn{
+  text-transform: initial;
 }
 </style>

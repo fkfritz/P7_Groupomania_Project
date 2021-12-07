@@ -32,14 +32,21 @@
     >
       Signup
     </v-btn>
-
+    <span 
+    v-if="$store.state.isUserLoggedIn"
+    class="mr-4"
+    
+    >
+    Bienvenue, {{first_name}} {{last_name}}
+    </span>
     <v-btn
       v-if="$store.state.isUserLoggedIn"
       class="ma-1"
       color="white"
+      plain
       @click="logout"
     >
-      Log Out
+      Se déconnecter
     </v-btn>
 
     <!-- <v-btn class="mr-4" @click="navigateTo({ name: 'Signup' })"> Signup </v-btn> -->
@@ -48,7 +55,14 @@
 </template>
 
 <script>
+let user = JSON.parse(localStorage.getItem("user"));
 export default {
+  data() {
+    return {
+      first_name: user.first_name,
+      last_name: user.last_name,
+    }
+  },
   methods: {
     navigateTo(route) {
       this.$router.push(route);
@@ -76,5 +90,11 @@ export default {
 .v-toolbar__title {
   width: 100%;
   height: 100%;
+}
+.v-application .mr-4{
+  color:white
+}
+.v-btn{
+  text-transform: initial;
 }
 </style>

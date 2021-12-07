@@ -92,4 +92,8 @@ export default {
 
   font-size: 1.1rem;
   font-display: roboto;
-}</style>
+}
+.v-btn{
+  text-transform: initial;
+}
+</style>
