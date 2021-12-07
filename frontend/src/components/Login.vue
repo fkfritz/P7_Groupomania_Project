@@ -5,58 +5,58 @@
     class="mx-auto d-flex align-center rounded-xl"
     color="blue lighten-4"
   >
-  <v-row class="d-flex flex-md-row justify-center">
-    <v-col class=" pa-4 d-flex align-center ">
-      <img class="rounded-xl" src="../assets/icon-above-font.png" alt="" />
-    </v-col>
-    <v-col class="ma-2 pa-4">
-      <v-toolbar
-        class="d-flex justify-center rounded-xl"
-        elevation="0"
-        dense
-        color="blue darken-4"
-      >
-        <v-toolbar-title>Se connecter</v-toolbar-title>
-      </v-toolbar>
-      <div class="mt-8 mr-4 ml-4 pa-2">
-        <!-- <v-text-field
+    <v-row class="d-flex flex-md-row justify-center">
+      <v-col class="pa-4 d-flex align-center">
+        <img class="rounded-xl" src="../assets/icon-above-font.png" alt="" />
+      </v-col>
+      <v-col class="ma-2 pa-4">
+        <v-toolbar
+          class="d-flex justify-center rounded-xl"
+          elevation="0"
+          dense
+          color="blue darken-4"
+        >
+          <v-toolbar-title>Se connecter</v-toolbar-title>
+        </v-toolbar>
+        <div class="mt-8 mr-4 ml-4 pa-2">
+          <!-- <v-text-field
           v-model="username"
           label="Nom"
           hide-details="auto"
           autocomplete="off"
         ></v-text-field> -->
-        <v-text-field
-          v-model="email"
-          label="Email"
-          hide-details="auto"
-          autocomplete="off"
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="Mot de passe"
-          type="password"
-          autocomplete="off"
-        ></v-text-field>
+          <v-text-field
+            v-model="email"
+            label="Email"
+            hide-details="auto"
+            autocomplete="off"
+          ></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="Mot de passe"
+            type="password"
+            autocomplete="off"
+          ></v-text-field>
 
-        <!-- <p v-if="loginError">{{ loginError }}</p>
+          <!-- <p v-if="loginError">{{ loginError }}</p>
       <p v-if="loginSuccessful">Login Successful</p> -->
-        <br />
-        <v-row>
-          <v-btn
-            class="btn align-self-center ma-2 rounded-xl"
-            color="blue darken-4"
-            @click="login"
+          <br />
+          <v-row>
+            <v-btn
+              class="btn align-self-center ma-2 rounded-xl"
+              color="blue darken-4"
+              @click="login"
+            >
+              Valider
+            </v-btn>
+          </v-row>
+          <br />
+          <span
+            >Vous n'avez pas de compte?
+            <a @click="signup">Créer un compte.</a></span
           >
-            Valider
-          </v-btn>
-        </v-row>
-        <br />
-        <span
-          >Vous n'avez pas de compte?
-          <a @click="signup">Créer un compte.</a></span
-        >
-      </div>
-    </v-col>
+        </div>
+      </v-col>
     </v-row>
   </v-card>
 </template>

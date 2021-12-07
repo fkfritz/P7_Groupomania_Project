@@ -22,7 +22,7 @@
             >Profil de {{ user.first_name }} {{ user.last_name }}
           </v-toolbar-title>
           </v-col>
-          <v-btn text @click="editTheName()" v-if="user.id == UserId">
+          <v-btn text @click="editTheName()" v-if="user.id == UserId || user.isAdmin == userAdmin">
             <v-icon class="mx-2" color="grey lighten-1">mdi-pencil</v-icon>
             <span>Modifier</span>
           </v-btn>
@@ -83,7 +83,7 @@
               <v-avatar class="profile" color="grey" size="164" tile>
                 <v-img :src="user.avatar"></v-img>
               </v-avatar>
-              <v-btn text @click="elementToEdit" v-if="user.id == UserId">
+              <v-btn text @click="elementToEdit" v-if="user.id == UserId || user.isAdmin == userAdmin">
                 <v-icon class="mx-2" color="light-blue darken-4"
                   >mdi-pencil</v-icon
                 >
@@ -122,7 +122,7 @@
           </v-col>
         </div>
         <v-col>
-          <span v-if="user.id == UserId"
+          <span v-if="user.id == UserId "
             >Vous être membre depuis: {{ dateParser(user.createdAt) }}</span
           >
           <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
@@ -133,7 +133,7 @@
           <!-- <p v-if="loginError">{{ loginError }}</p>
       <p v-if="loginSuccessful">Login Successful</p> -->
           <br />
-          <v-row v-if="user.id == UserId" align="center" justify="space-around">
+          <v-row v-if="user.id == UserId || user.isAdmin == userAdmin " align="center" justify="space-around">
             <v-btn
               class="btn align-self-center ma-2 rounded-xl"
               color="red darken-1"
@@ -150,7 +150,7 @@
 
 <script>
 import UserServices from "@/services/UserServices";
-let userId = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
   data() {
@@ -165,7 +165,8 @@ export default {
       ],
       id: "",
       user: "",
-      UserId: userId.id,
+      UserId: user.id,
+      userAdmin: user.isAdmin,
       last_name: "",
       first_name: "",
       password: "",

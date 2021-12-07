@@ -1,9 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Like = sequelize.define("Like", {
-    hasLike: DataTypes.BOOLEAN,
-    allowNull: true,
-    defaultValue: false,
-  });
+  const Like = sequelize.define("Like", {});
 
   Like.associate = (models) => {
     Like.belongsTo(models.User, {

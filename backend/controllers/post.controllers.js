@@ -135,33 +135,46 @@ exports.deletePost = async (req, res, next) => {
 
 // Like un message
 
-// exports.likeOrDislike = async (req, res, next) => {
-//   try {
-//     const userId = req.body.UserId;
-//     const postId = req.params.id;
-//     const user = await Like.findOne({
-//       where: { UserId: userId, PostId: postId },
-//     });
-//     console.log(user);
-//     if (user) {
-//       await Like.destroy(
-//         { where: { UserId: userId, PostId: postId } },
-//         { truncate: true, restartIdentity: true }
-//       );
-//       await Post.decrement({ like: 1 }, { where: { id: postId } });
-//       res.status(200).send({ messageRetour: "vou n'aimez plus ce post" });
-//     } else {
-//       await Like.create({
-//         UserId: userId,
-//         PostId: postId,
-//       });
+exports.likeOrDislike = async (req, res, next) => {
+  try {
+    const userId = req.body.UserId;
+    const postId = req.body.PostId;
+    console.log(postId);
+    console.log(userId);
+    // const user = await Like.findOne({
+    //   where: { UserId: userId, PostId: postId },
+    // });
+    // console.log(user);
+    // if(user === null ){
+          await Like.create({
+        UserId: userId,
+        PostId: postId,
+        
+      });
+    // }
+    //   await Like.create({
+    //     UserId: userId,
+    //     PostId: postId,
+    //   });
+    // if (user) {
+    //   await Like.destroy(
+    //     { where: { UserId: userId, PostId: postId } },
+    //     { truncate: true, restartIdentity: true }
+    //   );
+    //   await Post.decrement({ like: 1 }, { where: { id: postId } });
+    //   res.status(200).send({ messageRetour: "vou n'aimez plus ce post" });
+    // } else {
+    //   await Like.create({
+    //     UserId: userId,
+    //     PostId: postId,
+    //   });
 
-//       res.status(201).json({ user });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error });
-//   }
-// };
+    //   res.status(201).json({ user });
+    // }
+  } catch (error) {
+    res.status(500).json({ message:error });
+  }
+};
 
 //Section commentaire
 //Créer un commentaire
@@ -186,7 +199,7 @@ exports.createComment = async (req, res, next) => {
 };
 
 //Supprimer un commentaire
-exports.deleteComment =  (req, res, next) => {
+exports.deleteComment = (req, res, next) => {
   try {
     Comment.destroy({
       where: { id: req.params.id },
@@ -196,3 +209,4 @@ exports.deleteComment =  (req, res, next) => {
     res.status(400).json({ error });
   }
 };
+

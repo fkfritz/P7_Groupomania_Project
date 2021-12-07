@@ -109,7 +109,7 @@
               <v-col
                 cols="2"
                 class="pa-0 d-flex text-center justify-end align-end"
-                v-if="post.UserId == UserId"
+                v-if="post.UserId == UserId || userAdmin === true"
               >
                 <v-speed-dial v-model="fab">
                   <template v-slot:activator>
@@ -119,7 +119,7 @@
                     </v-btn>
                   </template>
                   <v-btn
-                    @click="messageToEdit(index)"
+                    @click="messageToEdit(post)"
                     fab
                     dark
                     small
@@ -138,7 +138,7 @@
                   </v-btn>
                 </v-speed-dial>
               </v-col>
-            </div>
+            </div>          
             <!-- ----------------------------------- -->
             <!-- Bouton pour ajouter un commentaire -->
             <!-- ----------------------------------- -->
@@ -154,13 +154,24 @@
             <!-- ---------------------------------------- -->
             <div>
               <v-col>
-                <v-btn icon @click="commentShow(post, post.id)">
+                <v-btn icon @click="(show = !show), commentShow(post, post.id)">
                   <v-icon large color="blue darken-2">mdi-message-text</v-icon>
                 </v-btn>
                 <span>{{ post.Comments.length }}</span>
               </v-col>
             </div>
+            <!-- ------------------- -->
+            <!-- Bloc commentaire -->
+            <!-- ------------------- -->
 
+            <v-expand-transition>
+              <div v-show="show">
+                <v-divider></v-divider>
+                <div v-for="(comment, index) in post.Comments" :key="index">
+                  <v-card-text>{{ comment.text }}</v-card-text>
+                </div>
+              </div>
+            </v-expand-transition>
             <!-- -------------------- -->
             <!-- Bloc like -->
             <!-- -------------------- -->
@@ -214,21 +225,6 @@
         </v-card>
       </v-dialog>
 
-      <!-- ------------------- -->
-      <!-- Bloc commentaire -->
-      <!-- ------------------- -->
-
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-          <div v-for="(comment, index) in post.Comments" :key="index">
-            <span> {{}} </span>
-
-            <!-- <v-card-text>{{ comment.text }}</v-card-text> -->
-          </div>
-        </div>
-      </v-expand-transition>
-
       <!-- ------------------------------------------- -->
       <!-- Boite de dialog pour ajouter un commentaire -->
       <!-- -------------------------------------------- -->
@@ -267,39 +263,39 @@
 </template>
 
 <script>
-import PostServices from '@/services/PostServices'
+import PostServices from "@/services/PostServices";
 
-let user = JSON.parse(localStorage.getItem('user'))
+let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
-  name: 'Post',
+  name: "Post",
 
   data() {
     return {
       messages: [],
       dialog: false,
       comment: false,
-      fab: false,
+      // fab: false,
       show: false,
       message: null,
-      file: '',
-      fileName: '',
+      file: "",
+      fileName: "",
       UserId: user.id,
+      userAdmin: user.isAdmin,
       messageEdit: new Object(),
       text: null,
       currentPostId: null,
-      currentPost: null,
-     
-    }
+      currentPost: [],
+    };
   },
   computed: {
     posts() {
-      return this.$store.state.posts
+      return this.$store.state.posts;
     },
   },
 
   mounted() {
-    this.$store.dispatch('getPosts')
+    this.$store.dispatch("getPosts");
   },
   // async mounted() {
   //   this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
@@ -311,44 +307,42 @@ export default {
 
   methods: {
     commentPost(postId) {
-      this.comment = true
-      this.currentPostId = postId
+      this.comment = true;
+      this.currentPostId = postId;
     },
     commentShow(post, postId) {
-      this.show = true
-      this.currentPostId = postId
-      this.currentPost = post
-      
-      console.log('ici', this.currentPost);
-      
+      this.currentPostId = postId;
+      this.currentPost = post;
+      console.log("la", this.currentPost);
+      console.log("ici", this.currentPost);
     },
     // /////////////////////////////////////
     //Fonction pour charger une image
     // ////////////////////////////////////
     uploadImage() {
-      this.file = this.$refs.file.files[0]
-      this.fileName = this.file.name
-      console.log(this.file)
+      this.file = this.$refs.file.files[0];
+      this.fileName = this.file.name;
+      console.log(this.file);
     },
     // ////////////////////////////////
     //Fonction pour publier un post
     // ///////////////////////////////
     async publishPost() {
-      const fd = new FormData()
-      fd.append('message', this.message)
-      fd.append('UserId', this.UserId)
+      const fd = new FormData();
+      fd.append("message", this.message);
+      fd.append("UserId", this.UserId);
       if (this.file !== null) {
-        fd.append('image', this.file)
+        fd.append("image", this.file);
       }
-      await PostServices.createPost(fd)
-      location.reload(true)
+      await PostServices.createPost(fd);
+      location.reload(true);
     },
     // //////////////////////////////////////////////////////////////////////////////
     // Fonction pour lancer la boite de dialogue qui va permettre de modifier le post
     // ///////////////////////////////////////////////////////////////////////////////
-    messageToEdit(index) {
-      this.dialog = true
-      this.messageEdit = this.messages[index]
+    messageToEdit(post) {
+      this.dialog = true;
+      this.messageEdit = post;
     },
     // ////////////////////////////////////
     //Fonction pour modifier le post
@@ -357,19 +351,19 @@ export default {
       try {
         let data = {
           message: this.messageEdit.message,
-        }
-        const res = await PostServices.modifyPost(`${messageId}`, data)
-        console.log(res)
+        };
+        const res = await PostServices.modifyPost(`${messageId}`, data);
+        console.log(res);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     // //////////////////////////////////
     //Fonction pour supprimer un post
     // //////////////////////////////////
     async deleteMessage(messageId) {
-      await PostServices.deletePost(`${messageId}`)
-      location.reload(true)
+      await PostServices.deletePost(`${messageId}`);
+      location.reload(true);
     },
     // ////////////////////////////////////
     //Fonction pour publier un commentaire
@@ -380,16 +374,17 @@ export default {
           text: this.text,
           UserId: this.UserId,
           PostId: id,
-        }
-        console.log(data)
+        };
+        console.log(data);
         // const messageId = this.messageEdit.id;
-        const response = await PostServices.createComment(data)
+        const response = await PostServices.createComment(data);
         // console.log(messageId);
-        console.log(response)
-        this.comment = false
-        this.currentPostId = null
+        console.log(response);
+        this.comment = false;
+        this.currentPostId = null;
+        location.reload(true);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     // /////////////////////////////////////////////////
@@ -397,29 +392,29 @@ export default {
     // ////////////////////////////////////////////////////
     dateParser(num) {
       let options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        weekday: 'long',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      }
-      let timestamp = Date.parse(num)
-      let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
+        hour: "2-digit",
+        minute: "2-digit",
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      let timestamp = Date.parse(num);
+      let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
 
-      return date.toString()
+      return date.toString();
     },
     // //////////////////////////////////////////////////////////////////
     // Fonction qui permet de rediriger ver le profil d'un utilisateur
     // //////////////////////////////////////////////////////////////////
     profil(userId) {
-      const router = this.$router
+      const router = this.$router;
       setTimeout(function () {
-        router.push(`/profil/${userId}`)
-      }, 10)
+        router.push(`/profil/${userId}`);
+      }, 10);
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .profil {

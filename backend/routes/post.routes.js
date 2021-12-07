@@ -12,7 +12,7 @@ router.get("/:id", auth, postCtrl.getOnePost);
 
 router.put("/:id", auth, multer, postCtrl.updatePost);
 router.delete("/:id", auth, postCtrl.deletePost);
-// router.post("/:id/like", auth, postCtrl.like);
+router.post("/:id/like", auth, postCtrl.likeOrDislike);
 
 //
 //Créer un commentaire
