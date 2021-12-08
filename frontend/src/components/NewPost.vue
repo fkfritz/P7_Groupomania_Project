@@ -1,10 +1,10 @@
 <template>
-  <v-card max-width="700" class="offset-md-3 mx-auto">
+  <v-card max-width="600" class="offset-md-3 mx-auto">
         <v-toolbar
           class="d-flex justify-center "
           elevation="0"
           dense
-          color="green"
+          color="blue darken-2"
         >
         <v-toolbar-title >Ajouter un message</v-toolbar-title>
         </v-toolbar>

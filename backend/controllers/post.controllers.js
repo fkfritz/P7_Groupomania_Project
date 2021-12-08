@@ -13,7 +13,7 @@ exports.getPost = async (req, res, next) => {
         { model: User, attributes: ["first_name", "avatar", "last_name"] },
         {
           model: Comment,
-          attributes: ["id", "text"],
+          attributes: ["id", "text", "first_name", "last_name", "UserId"],
         },
       ],
     });
@@ -133,48 +133,7 @@ exports.deletePost = async (req, res, next) => {
   }
 };
 
-// Like un message
 
-exports.likeOrDislike = async (req, res, next) => {
-  try {
-    const userId = req.body.UserId;
-    const postId = req.body.PostId;
-    console.log(postId);
-    console.log(userId);
-    // const user = await Like.findOne({
-    //   where: { UserId: userId, PostId: postId },
-    // });
-    // console.log(user);
-    // if(user === null ){
-          await Like.create({
-        UserId: userId,
-        PostId: postId,
-        
-      });
-    // }
-    //   await Like.create({
-    //     UserId: userId,
-    //     PostId: postId,
-    //   });
-    // if (user) {
-    //   await Like.destroy(
-    //     { where: { UserId: userId, PostId: postId } },
-    //     { truncate: true, restartIdentity: true }
-    //   );
-    //   await Post.decrement({ like: 1 }, { where: { id: postId } });
-    //   res.status(200).send({ messageRetour: "vou n'aimez plus ce post" });
-    // } else {
-    //   await Like.create({
-    //     UserId: userId,
-    //     PostId: postId,
-    //   });
-
-    //   res.status(201).json({ user });
-    // }
-  } catch (error) {
-    res.status(500).json({ message:error });
-  }
-};
 
 //Section commentaire
 //Créer un commentaire
@@ -186,6 +145,8 @@ exports.createComment = async (req, res, next) => {
       UserId: user.id,
       PostId: post.id,
       text: req.body.text,
+      first_name:req.body.first_name,
+      last_name:req.body.last_name
     });
     comment.save();
     res.status(200).json({

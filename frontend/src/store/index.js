@@ -14,7 +14,7 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     message: [],
     posts: [],
-    // id: this.$route.params.id,
+    
   },
   getters: {
     user(state) {

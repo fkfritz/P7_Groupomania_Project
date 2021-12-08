@@ -4,6 +4,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    first_name:{
+      type:DataTypes.STRING,
+      allowNull: false,
+    },
+    last_name:{
+      type:DataTypes.STRING,
+      allowNull: false,
+    }
   });
 
   Comment.associate = (models) => {

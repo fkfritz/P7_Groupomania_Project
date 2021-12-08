@@ -1,16 +1,18 @@
 <template>
   <div class="container">
-    <NewPost/>
-    
-    
-    
-   
+    <NewPost />
+
     <!-- -------------------- -->
     <!-- Bloc message posté -->
     <!-- ---------------------- -->
     <div>
       <div class="mt-3" v-for="(post, index) in posts" :key="index">
-        <v-card class="mx-auto" color="teal darken-2" dark max-width="600">
+        <v-card
+          class="mx-auto"
+          color="light-blue darken-4"
+          dark
+          max-width="600"
+        >
           <div class="d-flex">
             <div
               @click="profil(post.UserId)"
@@ -46,17 +48,19 @@
               <v-img
                 :src="post.imageUrl"
                 alt="image postée par l'utilisateur"
-                :max-height="200"
-                :max-width="500"
+                :max-height="300"
+                :max-width="600"
                 class="image mx-auto pb-5 rounded-lg"
               ></v-img>
             </div>
+
             <div class="d-flex pa-2">
               <!-- --------------- -->
               <!-- Bloc message -->
               <!-- ---------------- -->
+
               <v-col cols="10">
-                <v-card-text class="text">
+                <v-card-text class="post-message text">
                   {{ post.message }}
                 </v-card-text>
               </v-col>
@@ -70,7 +74,7 @@
               >
                 <v-speed-dial v-model="fab">
                   <template v-slot:activator>
-                    <v-btn v-model="fab" color="blue darken-2" dark fab>
+                    <v-btn v-model="fab" color="purple lighten-1" dark fab>
                       <v-icon v-if="fab">mdi-close</v-icon>
                       <v-icon v-else>mdi-plus</v-icon>
                     </v-btn>
@@ -95,7 +99,7 @@
                   </v-btn>
                 </v-speed-dial>
               </v-col>
-            </div>          
+            </div>
             <!-- ----------------------------------- -->
             <!-- Bouton pour ajouter un commentaire -->
             <!-- ----------------------------------- -->
@@ -106,13 +110,14 @@
                 </v-btn>
               </v-col>
             </div>
+
             <!-- --------------------------------------- -->
             <!-- Bouton pour afficher le bloc commentaire -->
             <!-- ---------------------------------------- -->
             <div>
               <v-col>
                 <v-btn icon @click="(show = !show), commentShow(post, post.id)">
-                  <v-icon large color="blue darken-2">mdi-message-text</v-icon>
+                  <v-icon large color="purple accent-3">mdi-message-text</v-icon>
                 </v-btn>
                 <span>{{ post.Comments.length }}</span>
               </v-col>
@@ -124,15 +129,21 @@
             <v-expand-transition>
               <div v-show="show">
                 <v-divider></v-divider>
-                <div v-for="(comment, index) in post.Comments" :key="index">
-                  <v-card-text>{{ comment.text }}</v-card-text>
+                <div v-for="comment in post.Comments" :key="comment.id">
+                  <v-card-text>
+                    <span class="profil" @click="profil(comment.UserId)">
+                      {{ comment.first_name }} {{ comment.last_name }}</span
+                    >
+                    :
+                    {{ comment.text }}
+                  </v-card-text>
                 </div>
               </div>
             </v-expand-transition>
             <!-- -------------------- -->
             <!-- Bloc like -->
             <!-- -------------------- -->
-            <v-card-actions>
+            <!-- <v-card-actions>
               <v-list-item class="grow">
                 <v-row align="center" justify="end">
                   <v-btn icon class="mr-3">
@@ -141,11 +152,10 @@
                   <v-btn icon>
                     <v-icon>mdi-thumb-down</v-icon>
                   </v-btn>
-                  <!-- <v-icon class="mr-1"> mdi-heart </v-icon> -->
-                  <!-- <span class="subheading mr-2">256</span> -->
+                  
                 </v-row>
               </v-list-item>
-            </v-card-actions>
+            </v-card-actions> -->
           </div>
         </v-card>
       </div>
@@ -185,6 +195,7 @@
       <!-- ------------------------------------------- -->
       <!-- Boite de dialog pour ajouter un commentaire -->
       <!-- -------------------------------------------- -->
+
       <div>
         <v-dialog v-model="comment" width="500">
           <v-card>
@@ -221,7 +232,8 @@
 
 <script>
 import PostServices from "@/services/PostServices";
-import NewPost from '@/components/NewPost.vue'
+import NewPost from "@/components/NewPost.vue";
+
 let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
@@ -239,6 +251,8 @@ export default {
       fileName: "",
       UserId: user.id,
       userAdmin: user.isAdmin,
+      first_name: user.first_name,
+      last_name: user.last_name,
       messageEdit: new Object(),
       text: null,
       currentPostId: null,
@@ -262,7 +276,7 @@ export default {
   //   });
   // },
   components: {
-     NewPost
+    NewPost,
   },
   methods: {
     commentPost(postId) {
@@ -333,6 +347,8 @@ export default {
           text: this.text,
           UserId: this.UserId,
           PostId: id,
+          first_name: this.first_name,
+          last_name: this.last_name,
         };
         console.log(data);
         // const messageId = this.messageEdit.id;
@@ -378,8 +394,13 @@ export default {
 <style lang="scss" scoped>
 .profil {
   cursor: pointer;
+  text-decoration: underline;
 }
-.v-btn{
+.v-btn {
   text-transform: initial;
+}
+.post-message {
+  font-weight: 300;
+  font-size: 1.3rem;
 }
 </style>
