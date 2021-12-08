@@ -139,10 +139,11 @@
         </v-col>
       </div>
       <v-row v-if="user.isAdmin == userAdmin">
-        <v-btn>
+        <v-btn @click="showBoxUser = true">
           Afficher les utilisateurs
         </v-btn>
         </v-row>
+        <Users v-model="showBoxUser"/>
       
 
       <div>
@@ -169,6 +170,7 @@
 
 <script>
 import UserServices from "@/services/UserServices";
+import Users from "@/components/AllUsers.vue";
 let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
@@ -191,8 +193,10 @@ export default {
       password: "",
       file: "",
       usernameEdit: new Object(),
+      showBoxUser:false,
     };
   },
+  
   computed: {},
 
   async mounted() {
@@ -204,6 +208,9 @@ export default {
     } catch (error) {
       console.log(error);
     }
+  },
+  components:{
+    Users,
   },
   methods: {
     async deleteAccount() {
