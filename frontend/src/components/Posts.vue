@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <WelcomeToUser/>
     <NewPost />
 
     <!-- -------------------- -->
@@ -233,6 +234,7 @@
 <script>
 import PostServices from "@/services/PostServices";
 import NewPost from "@/components/NewPost.vue";
+import WelcomeToUser from "@/components/WelcomeToUser.vue"
 
 let user = JSON.parse(localStorage.getItem("user"));
 
@@ -276,7 +278,7 @@ export default {
   //   });
   // },
   components: {
-    NewPost,
+    NewPost,WelcomeToUser,
   },
   methods: {
     commentPost(postId) {

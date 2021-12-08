@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="600" class="offset-md-3 mx-auto">
+  <v-card max-width="600" class="offset-md-3 mx-auto" >
         <v-toolbar
           class="d-flex justify-center "
           elevation="0"

@@ -138,11 +138,11 @@
           <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
         </v-col>
       </div>
-      <v-row v-if="user.isAdmin == userAdmin">
+      <v-col v-if="user.isAdmin == userAdmin">
         <v-btn @click="showBoxUser = true">
           Afficher les utilisateurs
         </v-btn>
-        </v-row>
+        </v-col>
         <Users v-model="showBoxUser"/>
       
 
