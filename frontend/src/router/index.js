@@ -6,6 +6,7 @@ import Signup from "@/components/Signup.vue";
 import Posts from "@/components/Posts.vue";
 import OnePost from "@/components/OnePost.vue";
 import Profil from "@/components/Profil.vue";
+import Users from "@/components/AllUser.vue"
 
 
 Vue.use(VueRouter);
@@ -43,6 +44,11 @@ const routes = [
     path: "/profil/:id",
     name: "Profil",
     component: Profil,
+  },
+  {
+    path: "/users",
+    name: "Users",
+    component: Users,
   },
   // {
   //   path: "/profil/:id",

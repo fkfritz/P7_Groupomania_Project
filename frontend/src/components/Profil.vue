@@ -25,7 +25,7 @@
           <v-btn
             text
             @click="editTheName()"
-            v-if="user.id == UserId || user.isAdmin == userAdmin"
+            v-if="user.id == UserId || userAdmin===true"
           >
             <v-icon class="mx-2" color="grey lighten-1">mdi-pencil</v-icon>
             <span>Modifier</span>
@@ -89,7 +89,7 @@
               <v-btn
                 text
                 @click="elementToEdit"
-                v-if="user.id == UserId || user.isAdmin == userAdmin"
+                v-if="user.id == UserId || userAdmin===true"
               >
                 <v-icon class="mx-2" color="light-blue darken-4"
                   >mdi-pencil</v-icon
@@ -137,12 +137,13 @@
           <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
         </v-col>
         <v-col v-if="user.isAdmin == userAdmin">
-          <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn>
+          <!-- <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn> -->
+          <v-btn @click="showUsers"> Afficher les utilisateurs </v-btn>
         </v-col>
         </div>
       </div>
 
-      <Users v-model="showBoxUser" />
+      <!-- <Users v-model="showBoxUser" /> -->
 
       <div>
         <v-col>
@@ -168,7 +169,7 @@
 
 <script>
 import UserServices from "@/services/UserServices";
-import Users from "@/components/AllUsers.vue";
+// import Users from "@/components/AllUsers.vue";
 let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
@@ -191,7 +192,7 @@ export default {
       password: "",
       file: "",
       usernameEdit: new Object(),
-      showBoxUser: false,
+      // showBoxUser: false,
     };
   },
 
@@ -207,9 +208,9 @@ export default {
       console.log(error);
     }
   },
-  components: {
-    Users,
-  },
+  // components: {
+  //   Users,
+  // },
   methods: {
     async deleteAccount() {
       this.id = this.$route.params.id;
@@ -257,6 +258,12 @@ export default {
     uploadImage() {
       this.file = this.$refs.file.files[0];
       console.log(this.file);
+    },
+    showUsers() {
+      const router = this.$router;
+      setTimeout(function () {
+        router.push("/users");
+      }, 10);
     },
 
     dateParser(num) {
