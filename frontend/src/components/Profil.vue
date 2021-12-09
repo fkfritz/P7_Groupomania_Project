@@ -13,19 +13,18 @@
           dense
           color="blue darken-4"
         >
-         
           <v-col>
-            <v-toolbar-title v-if="user.id == UserId"
-              >Bienvenue, {{ user.first_name }} {{ user.last_name }}
+            <v-toolbar-title v-if="user.id == UserId">
+              Bienvenue, {{ user.first_name }} {{ user.last_name }}
             </v-toolbar-title>
-            <v-toolbar-title v-else
-              >Profil de {{ user.first_name }} {{ user.last_name }}
+            <v-toolbar-title v-else>
+              Profil de {{ user.first_name }} {{ user.last_name }}
             </v-toolbar-title>
           </v-col>
           <v-btn
             text
             @click="editTheName()"
-            v-if="user.id == UserId || userAdmin===true"
+            v-if="user.id == UserId || userAdmin === true"
           >
             <v-icon class="mx-2" color="grey lighten-1">mdi-pencil</v-icon>
             <span>Modifier</span>
@@ -78,9 +77,9 @@
       <div class="d-flex flex-column-reverse flex-md-row justify-center">
         <div class="d-flex mt-4">
           <v-col class="d-flex flex-column align-center pa-5">
-            <span v-if="user.id == UserId" class="mb-2"
-              >Votre photo de profil</span
-            >
+            <span v-if="user.id == UserId" class="mb-2">
+              Votre photo de profil
+            </span>
             <span v-else class="mb-2">Photo de profil</span>
             <div class="d-flex flex-column">
               <v-avatar class="profile" color="grey" size="164" tile>
@@ -89,11 +88,11 @@
               <v-btn
                 text
                 @click="elementToEdit"
-                v-if="user.id == UserId || userAdmin===true"
+                v-if="user.id == UserId || userAdmin === true"
               >
-                <v-icon class="mx-2" color="light-blue darken-4"
-                  >mdi-pencil</v-icon
-                >
+                <v-icon class="mx-2" color="light-blue darken-4">
+                  mdi-pencil
+                </v-icon>
                 <span>Modifier</span>
               </v-btn>
             </div>
@@ -130,16 +129,16 @@
         </div>
         <v-spacer></v-spacer>
         <div>
-        <v-col>
-          <span v-if="user.id == UserId"
-            >Vous être membre depuis: {{ dateParser(user.createdAt) }}</span
-          >
-          <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
-        </v-col>
-        <v-col v-if="user.isAdmin == userAdmin">
-          <!-- <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn> -->
-          <v-btn @click="showUsers"> Afficher les utilisateurs </v-btn>
-        </v-col>
+          <v-col>
+            <span v-if="user.id == UserId">
+              Vous être membre depuis: {{ dateParser(user.createdAt) }}
+            </span>
+            <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
+          </v-col>
+          <v-col v-if="user.isAdmin == userAdmin">
+            <!-- <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn> -->
+            <v-btn @click="showUsers">Afficher les utilisateurs</v-btn>
+          </v-col>
         </div>
       </div>
 
@@ -149,7 +148,7 @@
         <v-col>
           <br />
           <v-row
-            v-if="user.id == UserId || user.isAdmin == userAdmin"
+            v-if="user.id == UserId || userAdmin === true"
             align="center"
             justify="space-around"
           >
@@ -164,13 +163,21 @@
         </v-col>
       </div>
     </v-card>
+    <div class="d-flex justify-center pa-4 ma-4">
+      <v-btn @click="backToPostsPage" class="ma-2" color="orange darken-2" dark>
+        <v-icon dark left>
+          mdi-arrow-left
+        </v-icon>
+        Retour à la page des messages
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
 <script>
-import UserServices from "@/services/UserServices";
+import UserServices from '@/services/UserServices'
 // import Users from "@/components/AllUsers.vue";
-let user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem('user'))
 
 export default {
   data() {
@@ -178,34 +185,34 @@ export default {
       dialog: false,
       editname: false,
       inputRules: [
-        (v) => v.length >= 3 || "minimum 3 caractères", //les règles sur l'input
+        (v) => v.length >= 3 || 'minimum 3 caractères', //les règles sur l'input
       ],
       inputPasswordRules: [
-        (v) => v.length >= 6 || "minimum 6 caractères", //les règles sur l'input
+        (v) => v.length >= 6 || 'minimum 6 caractères', //les règles sur l'input
       ],
-      id: "",
-      user: "",
+      id: '',
+      user: '',
       UserId: user.id,
       userAdmin: user.isAdmin,
-      last_name: "",
-      first_name: "",
-      password: "",
-      file: "",
+      last_name: '',
+      first_name: '',
+      password: '',
+      file: '',
       usernameEdit: new Object(),
       // showBoxUser: false,
-    };
+    }
   },
 
   computed: {},
 
   async mounted() {
     try {
-      this.id = this.$route.params.id;
-      const response = await UserServices.getOneUser(this.id);
-      this.user = response.data;
-      console.log(this.user);
+      this.id = this.$route.params.id
+      const response = await UserServices.getOneUser(this.id)
+      this.user = response.data
+      console.log(this.user)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   },
   // components: {
@@ -213,32 +220,32 @@ export default {
   // },
   methods: {
     async deleteAccount() {
-      this.id = this.$route.params.id;
-      await UserServices.deleteAccount(this.id);
-      const router = this.$router;
+      this.id = this.$route.params.id
+      await UserServices.deleteAccount(this.id)
+      const router = this.$router
       setTimeout(function () {
-        router.push("/");
-      }, 10);
+        router.push('/')
+      }, 10)
     },
     async updateUser() {
       try {
-        let data = new FormData();
+        let data = new FormData()
         if (this.file !== null) {
-          data.append("image", this.file);
+          data.append('image', this.file)
         }
-        this.id = this.$route.params.id;
-        await UserServices.updateUser(this.id, data);
-        location.reload(true);
+        this.id = this.$route.params.id
+        await UserServices.updateUser(this.id, data)
+        location.reload(true)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     elementToEdit() {
-      this.dialog = true;
+      this.dialog = true
     },
     editTheName() {
-      this.editname = true;
-      this.usernameEdit = this.user;
+      this.editname = true
+      this.usernameEdit = this.user
     },
     async updateTheName() {
       try {
@@ -246,37 +253,43 @@ export default {
           first_name: this.usernameEdit.first_name,
           last_name: this.usernameEdit.last_name,
           password: this.password,
-        };
-        this.id = this.$route.params.id;
-        const res = await UserServices.updateUser(this.id, data);
-        console.log(res);
+        }
+        this.id = this.$route.params.id
+        const res = await UserServices.updateUser(this.id, data)
+        console.log(res)
         // location.reload(true);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     uploadImage() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
+      this.file = this.$refs.file.files[0]
+      console.log(this.file)
     },
     showUsers() {
-      const router = this.$router;
+      const router = this.$router
       setTimeout(function () {
-        router.push("/users");
-      }, 10);
+        router.push('/users')
+      }, 10)
+    },
+    backToPostsPage() {
+      const router = this.$router
+      setTimeout(function () {
+        router.push('/posts')
+      }, 10)
     },
 
     dateParser(num) {
       let options = {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      };
-      let timestamp = Date.parse(num);
-      let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }
+      let timestamp = Date.parse(num)
+      let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
 
-      return date.toString();
+      return date.toString()
     },
     // async getPosts() {
     //   try {
@@ -288,7 +301,7 @@ export default {
     //   }
     // },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-toolbar__title {

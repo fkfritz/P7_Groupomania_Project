@@ -9,32 +9,38 @@
       class="card d-flex align-center offset-md-3 mx-auto mb-4"
       v-for="(user, index) in users"
       :key="index"
-      
-      
     >
-    
-        <v-col class="d-flex align-center">
-          <v-avatar class="ma-4">
-            <img :src="user.avatar" alt="" />
-          </v-avatar>
-          <h2 class="font-weight-light">
-              <a @click="profil(user.id)">
+      <v-col class="d-flex align-center">
+        <v-avatar class="ma-4">
+          <img :src="user.avatar" alt="" />
+        </v-avatar>
+        <h2 class="font-weight-light">
+          <a @click="profil(user.id)">
             {{ user.last_name }} {{ user.first_name }}
-            </a>
-          </h2>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col v-if="user.id == UserId || userAdmin===true">
-          <v-btn
-            class="btn align-self-center ma-2 rounded-xl"
-            color="red darken-1"
-            @click="deleteAccount(user.id)"
-          >
-            Supprimer le compte
-          </v-btn>
-        </v-col>
-      
+          </a>
+        </h2>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col v-if="user.id == UserId || userAdmin === true">
+        <v-btn
+          class="btn align-self-center ma-2 rounded-xl"
+          color="red darken-1"
+          @click="deleteAccount(user.id)"
+        >
+          Supprimer le compte
+        </v-btn>
+      </v-col>
     </v-card>
+    <div class="d-flex justify-center pa-4 ma-4">
+      
+        <v-btn @click="profil(UserId)" class="ma-2" color="orange darken-2" dark>
+          <v-icon dark left>
+            mdi-arrow-left
+          </v-icon>
+          Back
+        </v-btn>
+      
+   </div>
   </div>
 </template>
 
@@ -61,18 +67,18 @@ export default {
       }, 10)
     },
     profil(userId) {
-      const router = this.$router;
+      const router = this.$router
       setTimeout(function () {
-        router.push(`/profil/${userId}`);
-      }, 10);
+        router.push(`/profil/${userId}`)
+      }, 10)
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.card{
-    border-left: solid 6px;
-    border-left-color: #0D47A1;
+.card {
+  border-left: solid 6px;
+  border-left-color: #0d47a1;
 }
 </style>

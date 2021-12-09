@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <WelcomeToUser/>
+    <WelcomeToUser />
     <NewPost />
 
     <!-- -------------------- -->
@@ -117,9 +117,31 @@
             <!-- ---------------------------------------- -->
             <div>
               <v-col>
-                <v-btn icon @click="(show = !show), commentShow(post, post.id)">
-                  <v-icon large color="purple accent-3">mdi-message-text</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      icon
+                      @click=";(show = !show), commentShow(post, post.id)"
+                    >
+                      <v-icon large color="purple accent-3">
+                        mdi-message-text
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Afficher les commentaires</span>
+                </v-tooltip>
+                <!-- <v-btn
+                  icon
+                  @click=";(show = !show), commentShow(post, post.id)"
+                >
+                  <v-icon large color="purple accent-3">
+                    mdi-message-text
+                  </v-icon>
+                </v-btn> -->
                 <span>{{ post.Comments.length }}</span>
               </v-col>
             </div>
@@ -130,33 +152,28 @@
             <v-expand-transition>
               <div v-show="show">
                 <v-divider></v-divider>
-                <div v-for="comment in post.Comments" :key="comment.id">
+                <div v-for="comment in post.Comments" :key="comment.id" class="d-flex align-center">
                   <v-card-text>
                     <span class="profil" @click="profil(comment.UserId)">
-                      {{ comment.first_name }} {{ comment.last_name }}</span
-                    >
+                      {{ comment.first_name }} {{ comment.last_name }}
+                    </span>
                     :
                     {{ comment.text }}
                   </v-card-text>
+                  
+                  <v-btn 
+                  v-if="UserId == comment.UserId"
+                    @click="deleteComment(comment.id)"
+                    dark
+                    small
+                    color="red"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </div>
               </div>
             </v-expand-transition>
-            <!-- -------------------- -->
-            <!-- Bloc like -->
-            <!-- -------------------- -->
-            <!-- <v-card-actions>
-              <v-list-item class="grow">
-                <v-row align="center" justify="end">
-                  <v-btn icon class="mr-3">
-                    <v-icon>mdi-thumb-up</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>mdi-thumb-down</v-icon>
-                  </v-btn>
-                  
-                </v-row>
-              </v-list-item>
-            </v-card-actions> -->
+            
           </div>
         </v-card>
       </div>
@@ -232,14 +249,14 @@
 </template>
 
 <script>
-import PostServices from "@/services/PostServices";
-import NewPost from "@/components/NewPost.vue";
-import WelcomeToUser from "@/components/WelcomeToUser.vue"
+import PostServices from '@/services/PostServices'
+import NewPost from '@/components/NewPost.vue'
+import WelcomeToUser from '@/components/WelcomeToUser.vue'
 
-let user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem('user'))
 
 export default {
-  name: "Post",
+  name: 'Post',
 
   data() {
     return {
@@ -249,8 +266,8 @@ export default {
       // fab: false,
       show: false,
       message: null,
-      file: "",
-      fileName: "",
+      file: '',
+      fileName: '',
       UserId: user.id,
       userAdmin: user.isAdmin,
       first_name: user.first_name,
@@ -259,16 +276,16 @@ export default {
       text: null,
       currentPostId: null,
       currentPost: [],
-    };
+    }
   },
   computed: {
     posts() {
-      return this.$store.state.posts;
+      return this.$store.state.posts
     },
   },
 
   mounted() {
-    this.$store.dispatch("getPosts");
+    this.$store.dispatch('getPosts')
   },
   // async mounted() {
   //   this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
@@ -278,46 +295,47 @@ export default {
   //   });
   // },
   components: {
-    NewPost,WelcomeToUser,
+    NewPost,
+    WelcomeToUser,
   },
   methods: {
     commentPost(postId) {
-      this.comment = true;
-      this.currentPostId = postId;
+      this.comment = true
+      this.currentPostId = postId
     },
     commentShow(post, postId) {
-      this.currentPostId = postId;
-      this.currentPost = post;
-      console.log("la", this.currentPost);
-      console.log("ici", this.currentPost);
+      this.currentPostId = postId
+      this.currentPost = post
+      console.log('la', this.currentPost)
+      console.log('ici', this.currentPost)
     },
     // /////////////////////////////////////
     //Fonction pour charger une image
     // ////////////////////////////////////
     uploadImage() {
-      this.file = this.$refs.file.files[0];
-      this.fileName = this.file.name;
-      console.log(this.file);
+      this.file = this.$refs.file.files[0]
+      this.fileName = this.file.name
+      console.log(this.file)
     },
     // ////////////////////////////////
     //Fonction pour publier un post
     // ///////////////////////////////
     async publishPost() {
-      const fd = new FormData();
-      fd.append("message", this.message);
-      fd.append("UserId", this.UserId);
+      const fd = new FormData()
+      fd.append('message', this.message)
+      fd.append('UserId', this.UserId)
       if (this.file !== null) {
-        fd.append("image", this.file);
+        fd.append('image', this.file)
       }
-      await PostServices.createPost(fd);
-      location.reload(true);
+      await PostServices.createPost(fd)
+      location.reload(true)
     },
     // //////////////////////////////////////////////////////////////////////////////
     // Fonction pour lancer la boite de dialogue qui va permettre de modifier le post
     // ///////////////////////////////////////////////////////////////////////////////
     messageToEdit(post) {
-      this.dialog = true;
-      this.messageEdit = post;
+      this.dialog = true
+      this.messageEdit = post
     },
     // ////////////////////////////////////
     //Fonction pour modifier le post
@@ -326,19 +344,19 @@ export default {
       try {
         let data = {
           message: this.messageEdit.message,
-        };
-        const res = await PostServices.modifyPost(`${messageId}`, data);
-        console.log(res);
+        }
+        const res = await PostServices.modifyPost(`${messageId}`, data)
+        console.log(res)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     // //////////////////////////////////
     //Fonction pour supprimer un post
     // //////////////////////////////////
     async deleteMessage(messageId) {
-      await PostServices.deletePost(`${messageId}`);
-      location.reload(true);
+      await PostServices.deletePost(`${messageId}`)
+      location.reload(true)
     },
     // ////////////////////////////////////
     //Fonction pour publier un commentaire
@@ -351,47 +369,52 @@ export default {
           PostId: id,
           first_name: this.first_name,
           last_name: this.last_name,
-        };
-        console.log(data);
-        // const messageId = this.messageEdit.id;
-        const response = await PostServices.createComment(data);
-        // console.log(messageId);
-        console.log(response);
-        this.comment = false;
-        this.currentPostId = null;
-        location.reload(true);
+        }
+        console.log(data)
+        const response = await PostServices.createComment(data)
+        console.log(response)
+        this.comment = false
+        this.currentPostId = null
+        location.reload(true)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
+    },
+    // //////////////////////////////////
+    //Fonction pour supprimer un post
+    // //////////////////////////////////
+    async deleteComment(commentId){
+      await PostServices.deleteComment(`${commentId}`)
+      // location.reload(true)
     },
     // /////////////////////////////////////////////////
     // fonction pour transformer la date sur les messages
     // ////////////////////////////////////////////////////
     dateParser(num) {
       let options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      };
-      let timestamp = Date.parse(num);
-      let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
+        hour: '2-digit',
+        minute: '2-digit',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }
+      let timestamp = Date.parse(num)
+      let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
 
-      return date.toString();
+      return date.toString()
     },
     // //////////////////////////////////////////////////////////////////
     // Fonction qui permet de rediriger ver le profil d'un utilisateur
     // //////////////////////////////////////////////////////////////////
     profil(userId) {
-      const router = this.$router;
+      const router = this.$router
       setTimeout(function () {
-        router.push(`/profil/${userId}`);
-      }, 10);
+        router.push(`/profil/${userId}`)
+      }, 10)
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .profil {
