@@ -155,7 +155,7 @@ exports.createComment = async (req, res, next) => {
     });
     console.log(post, user);
   } catch (error) {
-    res.status(404).json({ error });
+    res.status(404).json({error:"Mauvaise requête"});
   }
 };
 
@@ -167,7 +167,7 @@ exports.deleteComment = (req, res, next) => {
     });
     res.status(200).json({ message: "Commentaire supprimé" });
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json({message:"Mauvaise requête"});
   }
 };
 

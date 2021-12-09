@@ -54,35 +54,35 @@
 </template>
 
 <script>
-import PostServices from "@/services/PostServices";
-let user = JSON.parse(localStorage.getItem("user"));
+import PostServices from '@/services/PostServices'
+let user = JSON.parse(localStorage.getItem('user'))
 export default {
   data() {
     return {
-      file: "",
-      fileName: "",
+      file: '',
+      fileName: '',
       UserId: user.id,
       message: null,
-    };
+    }
   },
   methods: {
     uploadImage() {
-      this.file = this.$refs.file.files[0];
-      this.fileName = this.file.name;
-      console.log(this.file);
+      this.file = this.$refs.file.files[0]
+      this.fileName = this.file.name
+      console.log(this.file)
     },
     async publishPost() {
-      const fd = new FormData();
-      fd.append("message", this.message);
-      fd.append("UserId", this.UserId);
+      const fd = new FormData()
+      fd.append('message', this.message)
+      fd.append('UserId', this.UserId)
       if (this.file !== null) {
-        fd.append("image", this.file);
+        fd.append('image', this.file)
       }
-      await PostServices.createPost(fd);
-      location.reload(true);
+      await PostServices.createPost(fd)
+      location.reload(true)
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-toolbar__title {

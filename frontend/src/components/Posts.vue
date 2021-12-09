@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <WelcomeToUser />
+    <div class="error" v-html="error" />
     <NewPost />
 
     <!-- -------------------- -->
@@ -286,6 +287,7 @@ export default {
       text: null,
       currentPostId: null,
       currentPost: [],
+      error: null,
     }
   },
   computed: {
@@ -331,14 +333,18 @@ export default {
     //Fonction pour publier un post
     // ///////////////////////////////
     async publishPost() {
-      const fd = new FormData()
-      fd.append('message', this.message)
-      fd.append('UserId', this.UserId)
-      if (this.file !== null) {
-        fd.append('image', this.file)
+      try {
+        const fd = new FormData()
+        fd.append('message', this.message)
+        fd.append('UserId', this.UserId)
+        if (this.file !== null) {
+          fd.append('image', this.file)
+        }
+        await PostServices.createPost(fd)
+        location.reload(true)
+      } catch (error) {
+        this.error = error.response.data.error
       }
-      await PostServices.createPost(fd)
-      location.reload(true)
     },
     // //////////////////////////////////////////////////////////////////////////////
     // Fonction pour lancer la boite de dialogue qui va permettre de modifier le post
@@ -358,7 +364,7 @@ export default {
         const res = await PostServices.modifyPost(`${messageId}`, data)
         console.log(res)
       } catch (error) {
-        console.log(error)
+        this.error = error.response.data.error
       }
     },
     // //////////////////////////////////
@@ -387,7 +393,7 @@ export default {
         this.currentPostId = null
         location.reload(true)
       } catch (error) {
-        console.log(error)
+        this.error = error.response.data.error
       }
     },
     // //////////////////////////////////
