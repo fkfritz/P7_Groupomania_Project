@@ -152,7 +152,11 @@
             <v-expand-transition>
               <div v-show="show">
                 <v-divider></v-divider>
-                <div v-for="comment in post.Comments" :key="comment.id" class="d-flex align-center">
+                <div
+                  v-for="comment in post.Comments"
+                  :key="comment.id"
+                  class="d-flex align-center pr-4 pl-4"
+                >
                   <v-card-text>
                     <span class="profil" @click="profil(comment.UserId)">
                       {{ comment.first_name }} {{ comment.last_name }}
@@ -160,20 +164,26 @@
                     :
                     {{ comment.text }}
                   </v-card-text>
-                  
-                  <v-btn 
-                  v-if="UserId == comment.UserId"
-                    @click="deleteComment(comment.id)"
-                    dark
-                    small
-                    color="red"
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-if="UserId == comment.UserId"
+                        @click="deleteComment(comment.id)"
+                        fab
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                        small
+                        color="red"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Supprimer mon commentaire</span>
+                  </v-tooltip>
                 </div>
               </div>
             </v-expand-transition>
-            
           </div>
         </v-card>
       </div>
@@ -383,7 +393,7 @@ export default {
     // //////////////////////////////////
     //Fonction pour supprimer un post
     // //////////////////////////////////
-    async deleteComment(commentId){
+    async deleteComment(commentId) {
       await PostServices.deleteComment(`${commentId}`)
       // location.reload(true)
     },
