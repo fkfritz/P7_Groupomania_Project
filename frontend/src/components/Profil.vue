@@ -13,10 +13,7 @@
           dense
           color="blue darken-4"
         >
-          <v-col>
-            <v-btn>test</v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
+         
           <v-col>
             <v-toolbar-title v-if="user.id == UserId"
               >Bienvenue, {{ user.first_name }} {{ user.last_name }}
@@ -131,20 +128,21 @@
             </v-dialog>
           </v-col>
         </div>
+        <v-spacer></v-spacer>
+        <div>
         <v-col>
           <span v-if="user.id == UserId"
             >Vous être membre depuis: {{ dateParser(user.createdAt) }}</span
           >
           <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
         </v-col>
-      </div>
-      <v-col v-if="user.isAdmin == userAdmin">
-        <v-btn @click="showBoxUser = true">
-          Afficher les utilisateurs
-        </v-btn>
+        <v-col v-if="user.isAdmin == userAdmin">
+          <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn>
         </v-col>
-        <Users v-model="showBoxUser"/>
-      
+        </div>
+      </div>
+
+      <Users v-model="showBoxUser" />
 
       <div>
         <v-col>
@@ -193,10 +191,10 @@ export default {
       password: "",
       file: "",
       usernameEdit: new Object(),
-      showBoxUser:false,
+      showBoxUser: false,
     };
   },
-  
+
   computed: {},
 
   async mounted() {
@@ -209,7 +207,7 @@ export default {
       console.log(error);
     }
   },
-  components:{
+  components: {
     Users,
   },
   methods: {

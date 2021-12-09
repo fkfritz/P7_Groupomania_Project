@@ -12,7 +12,7 @@
           class="mx-auto"
           color="light-blue darken-4"
           dark
-          max-width="600"
+          max-width="800"
         >
           <div class="d-flex">
             <div
@@ -50,7 +50,7 @@
                 :src="post.imageUrl"
                 alt="image postée par l'utilisateur"
                 :max-height="300"
-                :max-width="600"
+                :max-width="700"
                 class="image mx-auto pb-5 rounded-lg"
               ></v-img>
             </div>
