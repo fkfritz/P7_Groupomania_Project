@@ -42,6 +42,15 @@ CREATE TABLE `comments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `likes`
 --
 
@@ -61,6 +70,15 @@ CREATE TABLE `likes` (
   CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`PostId`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `likes`
+--
+
+LOCK TABLES `likes` WRITE;
+/*!40000 ALTER TABLE `likes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `likes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `posts`
@@ -85,6 +103,15 @@ CREATE TABLE `posts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `posts`
+--
+
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -104,8 +131,18 @@ CREATE TABLE `users` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (12,'Admin','Admin','admin@mail.com','$2b$10$0euvrIvmJFWVXzLb.GTnUOY77OCWMnmexVSe5oAFS5F87NrCj6Dzy',NULL,1,1,'2021-12-09 23:51:50','2021-12-09 23:51:50');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -116,4 +153,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-09 20:17:16
+-- Dump completed on 2021-12-09 20:54:04
