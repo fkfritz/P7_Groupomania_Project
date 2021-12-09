@@ -164,7 +164,7 @@
       </div>
     </v-card>
     <div class="d-flex justify-center pa-4 ma-4">
-      <v-btn @click="backToPostsPage" class="ma-2" color="orange darken-2" dark>
+      <v-btn @click="backToPostsPage" class="ma-2" color="blue darken-4" dark>
         <v-icon dark left>
           mdi-arrow-left
         </v-icon>
