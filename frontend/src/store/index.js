@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import AuthServices from "@/services/AuthServices";
+
 import UserServices from "@/services/UserServices";
 import PostServices from "@/services/PostServices";
 
@@ -59,17 +59,12 @@ export default new Vuex.Store({
 
     fetchAccessToken({ commit }) {
       commit("setToken", localStorage.getItem("accessToken"));
-      // commit("setUser", localStorage.getItem("UserId"));
+      
     },
     setMessage({ commit }, message) {
       commit("setMessage", message);
     },
-    // getUsers({ commit }){
-    //   const response = UserServices.getAllUsers();
-    //   const users =response.data
-    //   commit("SET_USERS", users);
-    //   console.log(response);
-    // },
+    
     getOneUser({ commit }) {
       let id = this.$route.params.id;
       const response = UserServices.getOneUser(id);

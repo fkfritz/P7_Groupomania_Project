@@ -136,14 +136,10 @@
             <span v-else>Membre depuis: {{ dateParser(user.createdAt) }}</span>
           </v-col>
           <v-col v-if="user.isAdmin == userAdmin">
-            <!-- <v-btn @click="showBoxUser = true"> Afficher les utilisateurs </v-btn> -->
             <v-btn @click="showUsers">Afficher les utilisateurs</v-btn>
           </v-col>
         </div>
       </div>
-
-      <!-- <Users v-model="showBoxUser" /> -->
-
       <div>
         <v-col>
           <br />
@@ -165,9 +161,7 @@
     </v-card>
     <div class="d-flex justify-center pa-4 ma-4">
       <v-btn @click="backToPostsPage" class="ma-2" color="blue darken-4" dark>
-        <v-icon dark left>
-          mdi-arrow-left
-        </v-icon>
+        <v-icon dark left> mdi-arrow-left </v-icon>
         Retour à la page des messages
       </v-btn>
     </div>
@@ -175,9 +169,9 @@
 </template>
 
 <script>
-import UserServices from '@/services/UserServices'
-// import Users from "@/components/AllUsers.vue";
-let user = JSON.parse(localStorage.getItem('user'))
+import UserServices from "@/services/UserServices";
+
+let user = JSON.parse(localStorage.getItem("user"));
 
 export default {
   data() {
@@ -185,67 +179,64 @@ export default {
       dialog: false,
       editname: false,
       inputRules: [
-        (v) => v.length >= 3 || 'minimum 3 caractères', //les règles sur l'input
+        (v) => v.length >= 3 || "minimum 3 caractères", //les règles sur l'input
       ],
       inputPasswordRules: [
-        (v) => v.length >= 6 || 'minimum 6 caractères', //les règles sur l'input
+        (v) => v.length >= 6 || "minimum 6 caractères", //les règles sur l'input
       ],
-      id: '',
-      user: '',
+      id: "",
+      user: "",
       UserId: user.id,
       userAdmin: user.isAdmin,
-      last_name: '',
-      first_name: '',
-      password: '',
-      file: '',
+      last_name: "",
+      first_name: "",
+      password: "",
+      file: "",
       usernameEdit: new Object(),
-      // showBoxUser: false,
-    }
+    };
   },
 
   computed: {},
 
   async mounted() {
     try {
-      this.id = this.$route.params.id
-      const response = await UserServices.getOneUser(this.id)
-      this.user = response.data
-      console.log(this.user)
+      this.id = this.$route.params.id;
+      const response = await UserServices.getOneUser(this.id);
+      this.user = response.data;
+      console.log(this.user);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
-  // components: {
-  //   Users,
-  // },
+
   methods: {
     async deleteAccount() {
-      this.id = this.$route.params.id
-      await UserServices.deleteAccount(this.id)
-      const router = this.$router
+      this.id = this.$route.params.id;
+      await UserServices.deleteAccount(this.id);
+      const router = this.$router;
       setTimeout(function () {
-        router.push('/')
-      }, 10)
+        router.push("/");
+      }, 10);
     },
     async updateUser() {
       try {
-        let data = new FormData()
+        let data = new FormData();
         if (this.file !== null) {
-          data.append('image', this.file)
+          data.append("image", this.file);
         }
-        this.id = this.$route.params.id
-        await UserServices.updateUser(this.id, data)
-        location.reload(true)
+        this.id = this.$route.params.id;
+        await UserServices.updateUser(this.id, data);
+        location.reload(true);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     elementToEdit() {
-      this.dialog = true
+      this.dialog = true;
     },
     editTheName() {
-      this.editname = true
-      this.usernameEdit = this.user
+      this.editname = true;
+      this.usernameEdit = this.user;
     },
     async updateTheName() {
       try {
@@ -253,55 +244,46 @@ export default {
           first_name: this.usernameEdit.first_name,
           last_name: this.usernameEdit.last_name,
           password: this.password,
-        }
-        this.id = this.$route.params.id
-        const res = await UserServices.updateUser(this.id, data)
-        console.log(res)
-        // location.reload(true);
+        };
+        this.id = this.$route.params.id;
+        const res = await UserServices.updateUser(this.id, data);
+        console.log(res);
+        location.reload(true);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     uploadImage() {
-      this.file = this.$refs.file.files[0]
-      console.log(this.file)
+      this.file = this.$refs.file.files[0];
+      console.log(this.file);
     },
     showUsers() {
-      const router = this.$router
+      const router = this.$router;
       setTimeout(function () {
-        router.push('/users')
-      }, 10)
+        router.push("/users");
+      }, 10);
     },
     backToPostsPage() {
-      const router = this.$router
+      const router = this.$router;
       setTimeout(function () {
-        router.push('/posts')
-      }, 10)
+        router.push("/posts");
+      }, 10);
     },
 
     dateParser(num) {
       let options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      }
-      let timestamp = Date.parse(num)
-      let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      let timestamp = Date.parse(num);
+      let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
 
-      return date.toString()
+      return date.toString();
     },
-    // async getPosts() {
-    //   try {
-    //     const response = await PostServices.getAllPosts();
-    //     console.log(response);
-    //     this.$store.dispatch("setMessage", response.data.message);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .v-toolbar__title {

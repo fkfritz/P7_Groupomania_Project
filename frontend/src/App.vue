@@ -5,12 +5,11 @@
       <br>
       
       <v-container class="mt-16">
-        <!-- <Login /> -->
-        <!-- <Signup /> -->
+       
         
         <router-view/>
       </v-container>
-      <!-- <router-view/> -->
+      
     </v-main>
   </v-app>
 </template>
@@ -18,8 +17,7 @@
 <script>
 import { mapActions } from 'vuex';
 import PageHeader from '@/components/Header.vue'
-// import Login from '@/components/Login.vue'
-// import Signup from '@/components/Signup.vue'
+
 
 
 
@@ -33,8 +31,7 @@ export default {
   components: {
     PageHeader, 
     
-    // Login,
-    // Signup
+    
 
   },
   methods: {

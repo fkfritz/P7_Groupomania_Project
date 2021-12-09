@@ -135,14 +135,6 @@
                   </template>
                   <span>Afficher les commentaires</span>
                 </v-tooltip>
-                <!-- <v-btn
-                  icon
-                  @click=";(show = !show), commentShow(post, post.id)"
-                >
-                  <v-icon large color="purple accent-3">
-                    mdi-message-text
-                  </v-icon>
-                </v-btn> -->
                 <span>{{ post.Comments.length }}</span>
               </v-col>
             </div>
@@ -273,8 +265,7 @@ export default {
     return {
       messages: [],
       dialog: false,
-      comment: false,
-      // fab: false,
+      comment: false,      
       show: false,
       message: null,
       file: '',
@@ -298,14 +289,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('getPosts')
-  },
-  // async mounted() {
-  //   this.messages = (await PostServices.getAllPosts()).data.sort((a, b) => {
-  //     const dateA = new Date(a.createdAt).getTime();
-  //     const dateB = new Date(b.createdAt).getTime();
-  //     return dateB - dateA;
-  //   });
-  // },
+  },  
   components: {
     NewPost,
     WelcomeToUser,

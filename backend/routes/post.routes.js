@@ -5,14 +5,23 @@ const postCtrl = require("../controllers/post.controllers");
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 
+//Les routes pour:
+
+//Afficher tous les posts
 router.get("/", auth, postCtrl.getPost);
+
+//Créer un post
 router.post("/", auth, multer, postCtrl.createPost);
 
+//Afficher un seul post
 router.get("/:id", auth, postCtrl.getOnePost);
 
+//Modifier un post
 router.put("/:id", auth, multer, postCtrl.updatePost);
+
+//Supprimer un post
 router.delete("/:id", auth, postCtrl.deletePost);
-// router.post("/:id/like", auth, postCtrl.likeOrDislike);
+
 
 //
 //Créer un commentaire

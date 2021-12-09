@@ -1,9 +1,9 @@
-// const db = require("../models");
+
 const { Post } = require("../models");
 const { User } = require("../models");
 const { Comment } = require("../models");
 const fs = require("fs");
-// const { Like } = require("../models");
+
 
 // Afficher tous les messages
 exports.getPost = async (req, res, next) => {

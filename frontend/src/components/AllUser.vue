@@ -3,7 +3,6 @@
     <div class="d-flex justify-center pa-4 ma-4">
       <h1 class="font-weight-light">Liste d'utilisateurs enregistrés</h1>
     </div>
-
     <v-card
       max-width="800"
       class="card d-flex align-center offset-md-3 mx-auto mb-4"
@@ -16,7 +15,7 @@
         </v-avatar>
         <h2 class="font-weight-light">
           <a @click="profil(user.id)">
-            {{ user.last_name }} {{ user.first_name }}
+             {{ user.first_name }} {{ user.last_name }}
           </a>
         </h2>
       </v-col>
@@ -32,48 +31,44 @@
       </v-col>
     </v-card>
     <div class="d-flex justify-center pa-4 ma-4">
-      
-        <v-btn @click="profil(UserId)" class="ma-2" color="blue darken-4" dark>
-          <v-icon dark left>
-            mdi-arrow-left
-          </v-icon>
-          Retour à la page profil
-        </v-btn>
-      
-   </div>
+      <v-btn @click="profil(UserId)" class="ma-2" color="blue darken-4" dark>
+        <v-icon dark left> mdi-arrow-left </v-icon>
+        Retour à la page profil
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
-import UserServices from '@/services/UserServices.js'
-let user = JSON.parse(localStorage.getItem('user'))
+import UserServices from "@/services/UserServices.js";
+let user = JSON.parse(localStorage.getItem("user"));
 export default {
   data() {
     return {
-      users: '',
+      users: "",
       UserId: user.id,
       userAdmin: user.isAdmin,
-    }
+    };
   },
-  async mounted() {
-    this.users = (await UserServices.getAllUsers()).data
-    console.log('ici', this.users)
+  async mounted() { //fonction qui permet de réccupérer tous les utilisateurs
+    this.users = (await UserServices.getAllUsers()).data;
+    console.log("ici", this.users);
   },
   methods: {
-    async deleteAccount(id) {
-      await UserServices.deleteAccount(id)
+    async deleteAccount(id) { //fonction pour supprimer un compte
+      await UserServices.deleteAccount(id);
       setTimeout(function () {
-        location.reload(true)
-      }, 10)
+        location.reload(true);
+      }, 10);
     },
-    profil(userId) {
-      const router = this.$router
+    profil(userId) { //fonction pour aller à la page profil
+      const router = this.$router;
       setTimeout(function () {
-        router.push(`/profil/${userId}`)
-      }, 10)
+        router.push(`/profil/${userId}`);
+      }, 10);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
