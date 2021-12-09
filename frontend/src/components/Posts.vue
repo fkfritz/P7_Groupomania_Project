@@ -401,7 +401,7 @@ export default {
     // //////////////////////////////////
     async deleteComment(commentId) {
       await PostServices.deleteComment(`${commentId}`)
-      // location.reload(true)
+      location.reload(true)
     },
     // /////////////////////////////////////////////////
     // fonction pour transformer la date sur les messages
