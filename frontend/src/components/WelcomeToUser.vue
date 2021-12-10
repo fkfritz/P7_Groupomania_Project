@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="800" class="offset-md-3 mx-auto" >
+  <v-card max-width="700" class="offset-md-3 mx-auto" >
     <v-alert
       class="d-flex"
       color="blue darken-4"

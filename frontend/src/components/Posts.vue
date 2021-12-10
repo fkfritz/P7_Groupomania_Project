@@ -13,7 +13,7 @@
           class="mx-auto"
           color="light-blue darken-4"
           dark
-          max-width="800"
+          max-width="700"
         >
           <div class="d-flex">
             <div
@@ -21,7 +21,7 @@
               class="profil d-flex align-center"
             >
               <v-avatar class="mt-2 ml-2">
-                <img :src="post.User.avatar" alt="" />
+                <img :src="post.User.avatar" alt="image avatar postée par l'utilisateur" />
               </v-avatar>
               <!-- ------------------------ -->
               <!-- Bloc nom d'utilisateur -->
@@ -50,7 +50,7 @@
               <v-img
                 :src="post.imageUrl"
                 alt="image postée par l'utilisateur"
-                :max-height="300"
+                :max-height="400"
                 :max-width="700"
                 class="image mx-auto pb-5 rounded-lg"
               ></v-img>
@@ -427,5 +427,8 @@ export default {
 .post-message {
   font-weight: 300;
   font-size: 1.3rem;
+}
+.v-image__image--cover{
+  background-size: contain;
 }
 </style>
