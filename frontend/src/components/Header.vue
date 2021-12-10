@@ -20,7 +20,7 @@
       plain
       @click="navigateTo({ name: 'Login' })"
     >
-      Login
+      Se connecter
     </v-btn>
     <v-btn
       v-if="!$store.state.isUserLoggedIn"
@@ -29,7 +29,7 @@
       plain
       @click="navigateTo({ name: 'Signup' })"
     >
-      Signup
+      S'inscrire
     </v-btn>
     <v-btn
       v-if="$store.state.isUserLoggedIn"

@@ -5,19 +5,20 @@
     </div>
     <v-card
       max-width="800"
-      class="card d-flex align-center offset-md-3 mx-auto mb-4"
+      class="card d-flex flex-column flex-sm-row align-center offset-md-3 mx-auto mb-4"
       v-for="(user, index) in users"
       :key="index"
     >
-      <v-col class="d-flex align-center">
+      <v-col class="d-flex flex-wrap align-center">
         <v-avatar class="ma-4">
           <img :src="user.avatar" alt="" />
         </v-avatar>
-        <h2 class="font-weight-light">
+        <h2 class="mr-4 font-weight-light">
           <a @click="profil(user.id)">
              {{ user.first_name }} {{ user.last_name }}
           </a>
         </h2>
+        <a :href="`mailto:${user.email}`"> {{user.email}} </a>
       </v-col>
       <v-spacer></v-spacer>
       <v-col v-if="user.id == UserId || userAdmin === true">
@@ -75,5 +76,10 @@ export default {
 .card {
   border-left: solid 6px;
   border-left-color: #0d47a1;
+}
+.btn {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>
