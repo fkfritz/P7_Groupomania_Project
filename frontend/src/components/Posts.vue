@@ -27,7 +27,7 @@
               <!-- Bloc nom d'utilisateur -->
               <!-- ------------------------- -->
               <span class="ml-2">
-                {{ post.User.last_name }} {{ post.User.first_name }}
+                {{ post.User.first_name }} {{ post.User.last_name }} 
               </span>
             </div>
             <v-spacer></v-spacer>
