@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="d-flex justify-center pa-4 ma-4">
-      <h1 class="font-weight-light">Liste d'utilisateurs enregistrés</h1>
+    <div class="d-flex justify-center pb-4 mb-4">
+      <h1 class="font-weight-light">Liste des utilisateurs enregistrés</h1>
     </div>
     <v-card
       max-width="800"
